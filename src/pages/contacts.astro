@@ -1,0 +1,36 @@
+---
+export const prerender = false;
+
+import { actions, isInputError } from "astro:actions";
+import ContactSection from "@/components/contacts/ContactSection.astro";
+import BaseLayout from "@/layouts/BaseLayout.astro";
+
+const result = Astro.getActionResult(actions.contact.send);
+const fields = isInputError(result?.error) ? result.error.fields : {};
+const isAccepted = result?.data?.ok === true;
+const actionError =
+  result?.data?.ok === false
+    ? result.data.error
+    : result?.error && !isInputError(result.error)
+      ? {
+          code: "request_failed",
+          message:
+            "Сообщение не удалось отправить сейчас. Попробуйте позже или напишите напрямую.",
+        }
+      : undefined;
+---
+
+<BaseLayout
+  title="AndyVi — Контакты"
+  description="Связаться с AndyVi: проект, вопрос или предложение по frontend-разработке."
+  currentPage="contacts"
+  canonicalPath="/contacts"
+>
+  <ContactSection
+    action={actions.contact.send}
+    fields={fields}
+    isAccepted={isAccepted}
+    actionError={actionError}
+  />
+</BaseLayout>
+

@@ -1,0 +1,26 @@
+---
+interface Props {
+  id?: string;
+  label?: string;
+  class?: string;
+}
+
+const { id = "frame", label, class: className } = Astro.props;
+const frameClass = ["frame", className].filter(Boolean).join(" ");
+---
+
+<div class="stage-shell" data-layer="00_STAGE_SHELL">
+  <div
+    id={id}
+    class={frameClass}
+    aria-label={label}
+    data-layer="00_FRAME / 1920x1080 cinematic shell"
+    data-frame-width="1920"
+    data-frame-height="1080"
+  >
+    <div class="frame-content" data-layer="00_FRAME_CONTENT">
+      <slot />
+    </div>
+  </div>
+</div>
+

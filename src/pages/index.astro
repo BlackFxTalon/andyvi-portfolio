@@ -1,0 +1,78 @@
+---
+import { Image } from "astro:assets";
+import bgPhoto from "@/assets/images/andyvi-bg-shadow-silhouette-smoke-sharp-v2.png";
+import BaseLayout from "@/layouts/BaseLayout.astro";
+import PageFrame from "@/components/shared/PageFrame.astro";
+import BottomHud from "@/components/hud/BottomHud.astro";
+import HudDecor from "@/components/hud/HudDecor.astro";
+import RightRuler from "@/components/hud/RightRuler.astro";
+import CtaButton from "@/components/home/CtaButton.astro";
+import HeroSection from "@/components/home/HeroSection.astro";
+import MetricsStrip from "@/components/home/MetricsStrip.astro";
+---
+
+<BaseLayout
+  title="AndyVi — Главная"
+  description="Портфолио фронтенд-разработчика AndyVi: масштабируемые сервисы, производительность, архитектура и качество кода."
+  currentPage="home"
+  canonicalPath="/"
+  class="index-main"
+>
+  <Image
+    class="layer bg-photo"
+    src={bgPhoto}
+    alt="andyVi image"
+    aria-hidden="true"
+    loading="eager"
+    decoding="async"
+  />
+  <div class="right-info">
+    <HeroSection />
+    <CtaButton href="/works" id="projectsCta" />
+    <MetricsStrip />
+    <BottomHud />
+    <RightRuler current="01" total="05" label="Индикатор 01–05" />
+  </div>
+    <HudDecor />
+</BaseLayout>
+
+<style>
+  .index-main {
+    display: flex;
+    align-items: center;
+    gap: clamp(1rem, 0.4rem + 3vw, 4rem);
+  }
+  .right-info {
+     display: grid;
+    margin-top: 6rem;
+  }
+  .bg-photo {
+    left: 0;
+    top: 0;
+    z-index: 1;
+    max-width: clamp(30rem, 1.404rem + 44.68vw, 45.625rem);
+    height: 100%;
+    object-fit: contain;
+    opacity: 0.88;
+  }
+
+  @media (width < 1280px) {
+    .bg-photo {
+      opacity: 0.82;
+      max-width: clamp(25rem, 19.3rem + 8.93vw, 30rem);
+    }
+  }
+
+  @media (width < 820px) {
+    .bg-photo {
+      width: 100%;
+      min-width: 0;
+      opacity: 0.42;
+      position: fixed;
+      max-height: 600px;
+    }
+    .right-info {
+        margin-top: 16rem;
+    }
+  }
+</style>

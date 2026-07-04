@@ -1,0 +1,190 @@
+---
+import CtaOrbit from "@/components/shared/CtaOrbit.astro";
+
+interface Props {
+  href?: string;
+  id?: string;
+  label?: string;
+}
+
+const { href = "/works", id = "projectsCta", label = "СМОТРЕТЬ ПРОЕКТЫ" } = Astro.props;
+---
+
+  <a
+    class="cta"
+    id={id}
+    href={href}
+    aria-label="Смотреть проекты"
+    data-layer="Button frame / Button label / Button arrow"
+    data-astro-prefetch="hover"
+  >
+    <CtaOrbit />
+    <span>{label}</span>
+    <span class="cta-arrow" aria-hidden="true">→</span>
+  </a>
+
+<style>
+
+  .cta {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 70px;
+    width: 100%;
+    max-width: 500px;
+    margin-block-start: 2rem;
+    gap: 28px;
+    overflow: hidden;
+    isolation: isolate;
+    clip-path: polygon(16px 0, 100% 0, 100% 52px, 482px 100%, 0 100%, 0 16px);
+    background:
+      linear-gradient(
+          112deg,
+          transparent 0 34%,
+          rgba(190, 237, 255, 0.24) 42%,
+          transparent 51%
+        )
+        -280% 0 / 260% 100% no-repeat,
+      linear-gradient(90deg, rgba(11, 24, 33, 0.12), rgba(3, 9, 15, 0.34)),
+      rgba(1, 4, 10, 0.1);
+    color: var(--cold-white);
+    font-family: var(--font-heading);
+    font-size: clamp(0.875rem, 0.75rem + 0.625vw, 1.5rem);
+    font-weight: var(--font-weight-semibold);
+    line-height: var(--line-none);
+    text-shadow: 0 0 12px rgba(188, 233, 255, 0.28);
+    text-transform: uppercase;
+    box-shadow: var(--shadow-control);
+    transition:
+      transform var(--dur-base) var(--ease-standard),
+      box-shadow var(--dur-base) var(--ease-standard),
+      color var(--dur-base) var(--ease-standard),
+      background-position 420ms var(--ease-shimmer);
+  }
+
+  .cta > span {
+    position: relative;
+    z-index: 2;
+  }
+
+  .cta:hover,
+  .cta:focus-visible {
+    color: var(--cold-white);
+    background-position: 140% 0, 0 0, 0 0;
+    box-shadow: var(--shadow-control-active);
+    transform: translateY(-1px);
+  }
+
+  .cta:focus-visible {
+    outline: var(--border-width-focus) solid var(--color-focus-ring);
+    outline-offset: 7px;
+  }
+
+  .cta:hover > span:first-of-type::after,
+  .cta:focus-visible > span:first-of-type::after {
+    transform: scaleX(1);
+  }
+
+  .cta:active {
+    box-shadow:
+      inset 0 0 24px rgba(103, 213, 255, 0.18),
+      0 0 18px rgba(126, 207, 255, 0.18);
+    transform: translateY(0);
+  }
+
+  .cta[data-visited="true"] {
+    color: rgba(223, 242, 252, 0.86);
+    text-shadow: 0 0 10px rgba(139, 218, 255, 0.2);
+  }
+
+  .cta::before,
+  .cta::after {
+    position: absolute;
+    z-index: 3;
+    pointer-events: none;
+    content: "";
+  }
+  .cta::after {
+    right: 122px;
+    bottom: -3px;
+    width: 92px;
+    height: 8px;
+    background: repeating-linear-gradient(
+      110deg,
+      rgba(194, 236, 255, 0.78) 0 3px,
+      transparent 3px 7px
+    );
+    opacity: 0.74;
+  }
+
+  .cta-arrow {
+    font-family: var(--font-body);
+    font-size: 40px;
+    font-weight: 300;
+    transform: translateY(-1px);
+    transition:
+      transform var(--dur-base) var(--ease-standard),
+      color var(--dur-base) var(--ease-standard),
+      text-shadow var(--dur-base) var(--ease-standard);
+  }
+
+  .cta:hover .cta-arrow,
+  .cta:focus-visible .cta-arrow {
+    color: #d8f4ff;
+    text-shadow: 0 0 16px rgba(137, 223, 255, 0.46);
+    transform: translate(8px, -1px);
+  }
+
+  @media (width < 1280px) {
+    .cta-zone {
+      position: relative;
+      top: auto;
+      left: auto;
+      width: min(100%, 500px);
+      height: auto;
+      margin-block-start: clamp(34px, 6vw, 56px);
+      margin-inline: var(--gutter-responsive-inline);
+    }
+  }
+
+  @media (width < 820px) {
+    .cta-zone {
+      width: auto;
+      margin-inline: max(24px, env(safe-area-inset-left)) max(
+          24px,
+          env(safe-area-inset-right)
+        );
+    }
+
+    .cta {
+      height: 50px;
+      gap: 16px;
+      clip-path: polygon(14px 0, 100% 0, 100% 48px, calc(100% - 18px) 100%, 0 100%, 0 14px);
+    }
+
+    .cta::after {
+      right: 64px;
+      width: 72px;
+    }
+
+    .cta-arrow {
+      font-size: 16px;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .cta,
+    .cta > span:first-of-type::after,
+    .cta-arrow {
+      transition: none;
+    }
+
+    .cta:hover,
+    .cta:focus-visible,
+    .cta:hover .cta-arrow,
+    .cta:focus-visible .cta-arrow {
+      transform: none;
+    }
+  }
+</style>

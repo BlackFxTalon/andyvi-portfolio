@@ -1,0 +1,162 @@
+---
+import BaseLayout from "@/layouts/BaseLayout.astro";
+import HudDecor from "@/components/hud/HudDecor.astro";
+import RightRuler from "@/components/hud/RightRuler.astro";
+import PageFrame from "@/components/shared/PageFrame.astro";
+---
+
+<BaseLayout
+  title="AndyVi — страница не найдена"
+  description="Страница не найдена. Вернитесь к работам AndyVi или свяжитесь с автором портфолио."
+  currentPage="home"
+  canonicalPath="/404"
+>
+  <PageFrame id="frame" class="not-found-frame" label="404 / Lost Signal">
+    <section class="not-found" aria-labelledby="not-found-title">
+      <p class="kicker">404 / lost signal</p>
+      <h1 id="not-found-title">Страница не найдена</h1>
+      <p class="lead">
+        Маршрут не собрался в текущем контуре. Ниже быстрые переходы к рабочим разделам портфолио.
+      </p>
+      <nav class="not-found-actions" aria-label="Навигация со страницы 404">
+        <a href="/works">Работы</a>
+        <a href="/process">Процесс</a>
+        <a href="/contacts">Контакты</a>
+      </nav>
+    </section>
+    <RightRuler current="00" total="05" label="Индикатор 404" />
+    <HudDecor />
+  </PageFrame>
+</BaseLayout>
+
+<style>
+  :global(.not-found-frame) {
+    background:
+      linear-gradient(90deg, rgba(0, 2, 7, 0.88), rgba(0, 4, 10, 0.98) 58%, rgba(0, 2, 7, 1)),
+      radial-gradient(circle at 22% 42%, rgba(93, 190, 238, 0.15), transparent 32%),
+      radial-gradient(circle at 68% 38%, rgba(214, 243, 255, 0.08), transparent 28%),
+      var(--bg);
+  }
+
+  :global(.not-found-frame)::before {
+    background:
+      linear-gradient(115deg, rgba(189, 238, 255, 0.08), transparent 36%),
+      repeating-linear-gradient(90deg, rgba(255, 255, 255, 0.026) 0 1px, transparent 1px 118px),
+      linear-gradient(180deg, rgba(255, 255, 255, 0.03), transparent 26%, transparent 72%, rgba(0, 0, 0, 0.7));
+    opacity: 0.84;
+  }
+
+  .not-found {
+    position: absolute;
+    z-index: var(--z-content);
+    inset-block-start: 186px;
+    inset-inline-start: 76px;
+    width: min(680px, calc(100% - 152px));
+  }
+
+  .kicker {
+    color: var(--hud-cyan);
+    font-family: var(--font-heading);
+    font-size: 15px;
+    font-weight: var(--font-weight-bold);
+    letter-spacing: var(--letter-ui);
+    text-transform: uppercase;
+  }
+
+  h1 {
+    margin-block: 18px 0;
+    color: var(--cold-white);
+    font-family: var(--font-heading);
+    font-size: clamp(48px, 8vw, 96px);
+    font-weight: var(--font-weight-black);
+    letter-spacing: var(--letter-ui);
+    line-height: var(--line-display);
+    text-transform: uppercase;
+    text-shadow:
+      0 0 22px rgba(192, 233, 255, 0.22),
+      0 0 52px rgba(98, 188, 238, 0.13);
+  }
+
+  h1::after {
+    display: block;
+    width: min(420px, 76vw);
+    height: 1px;
+    margin-block-start: 24px;
+    background: linear-gradient(90deg, rgba(226, 248, 255, 0.82), rgba(150, 224, 255, 0.18), transparent);
+    box-shadow: 0 0 14px rgba(181, 232, 255, 0.26);
+    content: "";
+  }
+
+  .lead {
+    width: min(600px, 100%);
+    margin-block-start: 24px;
+    color: rgba(222, 233, 239, 0.82);
+    font-size: 21px;
+    line-height: var(--line-copy);
+  }
+
+  .not-found-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin-block-start: 34px;
+  }
+
+  .not-found-actions a {
+    display: inline-flex;
+    min-width: 132px;
+    min-height: 44px;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid rgba(190, 235, 255, 0.38);
+    color: var(--cold-white);
+    font-family: var(--font-heading);
+    font-size: 14px;
+    font-weight: var(--font-weight-bold);
+    letter-spacing: var(--letter-ui);
+    text-decoration: none;
+    text-transform: uppercase;
+    transition:
+      border-color var(--dur-fast) var(--ease-out),
+      box-shadow var(--dur-fast) var(--ease-out),
+      transform var(--dur-fast) var(--ease-out);
+  }
+
+  .not-found-actions a:hover,
+  .not-found-actions a:focus-visible {
+    border-color: rgba(226, 248, 255, 0.78);
+    box-shadow: 0 0 20px rgba(126, 210, 255, 0.2);
+    transform: translateY(-1px);
+  }
+
+  @media (width < 1280px) {
+    .not-found {
+      position: relative;
+      inset: auto;
+      width: auto;
+      min-height: 100vh;
+      min-height: 100dvh;
+      padding: 132px var(--gutter-responsive-inline) 72px;
+    }
+  }
+
+  @media (width < 620px) {
+    .not-found {
+      padding: 112px max(var(--space-8), env(safe-area-inset-right)) 56px
+        max(var(--space-8), env(safe-area-inset-left));
+    }
+
+    .lead {
+      font-size: 18px;
+    }
+
+    .not-found-actions {
+      display: grid;
+      grid-template-columns: 1fr;
+    }
+
+    .not-found-actions a {
+      width: 100%;
+    }
+  }
+</style>

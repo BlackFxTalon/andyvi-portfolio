@@ -1,0 +1,41 @@
+@layer overrides {
+  ::view-transition,
+  ::view-transition-group(root),
+  ::view-transition-image-pair(root),
+  ::view-transition-old(root),
+  ::view-transition-new(root) {
+    mix-blend-mode: normal;
+  }
+
+  ::view-transition-group(root) {
+    animation-duration: var(--dur-page-enter);
+    animation-timing-function: var(--ease-out);
+  }
+
+  ::view-transition-old(root),
+  ::view-transition-new(root) {
+    animation: none;
+    isolation: isolate;
+  }
+
+  ::view-transition-old(root) {
+    animation: andyvi-page-scan-exit var(--dur-slow) var(--ease-in) both;
+  }
+
+  ::view-transition-new(root) {
+    animation:
+      andyvi-page-scan-enter var(--dur-page-enter) var(--ease-out) both,
+      andyvi-page-vignette-enter var(--dur-page-enter) ease-out both;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    ::view-transition-group(root),
+    ::view-transition-image-pair(root),
+    ::view-transition-old(root),
+    ::view-transition-new(root) {
+      animation: none;
+      opacity: 1;
+      transform: none;
+    }
+  }
+}

@@ -1,0 +1,121 @@
+---
+interface Props {
+  current?: string;
+  total?: string;
+  label?: string;
+}
+
+const {
+  current = "01",
+  total = "05",
+  label = `Indicator ${current}-${total}`,
+} = Astro.props;
+---
+
+<aside class="right-ruler" aria-label={label}>
+  <div class="index top">{current}</div>
+  <div class="ruler-line"></div>
+  <div class="ruler-block"></div>
+  <div class="ruler-dot"></div>
+  <div class="index bottom">{total}</div>
+</aside>
+
+<style>
+  .right-ruler {
+    position: fixed;
+    margin-block-end: 4rem;
+    margin-inline-end: 0.5rem;
+    bottom: 0;
+    right: 0;
+    z-index: var(--z-ruler);
+    width: 68px;
+    height: 610px;
+    color: var(--cold-white);
+    font-family: var(--font-heading);
+    text-align: center;
+    pointer-events: none;
+  }
+
+  .index {
+    position: absolute;
+    left: 0;
+    width: 68px;
+    font-size: clamp(0.875rem, 0.672rem + 1.016vw, 1.875rem);
+    font-weight: var(--font-weight-bold);
+    line-height: var(--line-none);
+    text-shadow: 0 0 12px rgba(181, 232, 255, 0.3);
+  }
+
+  .top {
+    top: 0;
+  }
+
+  .bottom {
+    bottom: 0;
+    color: rgba(244, 248, 255, 0.64);
+  }
+
+  .ruler-line {
+    position: absolute;
+    top: 62px;
+    left: 33px;
+    width: 1px;
+    height: 482px;
+    background: linear-gradient(
+      180deg,
+      transparent,
+      rgba(229, 249, 255, 0.64),
+      rgba(229, 249, 255, 0.36),
+      transparent
+    );
+  }
+
+  .ruler-line::before,
+  .ruler-line::after {
+    position: absolute;
+    left: -3px;
+    width: 7px;
+    height: 42px;
+    background: repeating-linear-gradient(
+      180deg,
+      rgba(238, 250, 255, 0.72) 0 4px,
+      transparent 4px 11px
+    );
+    content: "";
+  }
+
+  .ruler-line::before {
+    top: 0;
+  }
+
+  .ruler-line::after {
+    bottom: 0;
+  }
+
+  .ruler-block {
+    position: absolute;
+    top: 132px;
+    left: 26px;
+    width: 13px;
+    height: 50px;
+    background: rgba(244, 248, 255, 0.94);
+    box-shadow: var(--shadow-ruler-dot);
+  }
+
+  .ruler-dot {
+    position: absolute;
+    top: 276px;
+    left: 30px;
+    width: 7px;
+    height: 7px;
+    background: rgba(205, 239, 255, 0.84);
+    box-shadow: var(--shadow-ruler-dot-small);
+  }
+
+  @media (width < 1280px) {
+    .right-ruler {
+      display: none;
+    }
+  }
+</style>
+

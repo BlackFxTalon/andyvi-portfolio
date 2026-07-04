@@ -1,0 +1,164 @@
+---
+import { getCollection } from "astro:content";
+import BaseLayout from "@/layouts/BaseLayout.astro";
+import PageFrame from "@/components/shared/PageFrame.astro";
+import BackgroundMedia from "@/components/shared/BackgroundMedia.astro";
+import HudDecor from "@/components/hud/HudDecor.astro";
+import RightRuler from "@/components/hud/RightRuler.astro";
+import BottomHud from "@/components/hud/BottomHud.astro";
+import CaseModal from "@/components/works/CaseModal.astro";
+import ProjectsGrid from "@/components/works/ProjectsGrid.astro";
+import WorkControls from "@/components/works/WorkControls.astro";
+import { createWorksListState, type WorkItem } from "@/utils/works";
+
+const entries = await getCollection("works");
+const workItems = entries.map(({ data }) => ({
+  slug: data.slug,
+  title: data.title,
+  summary: data.summary,
+  type: data.type,
+  category: data.category,
+  year: data.year,
+  status: data.status,
+  stack: data.stack,
+  details: data.details,
+  links: data.links,
+  order: data.order,
+  featured: data.featured,
+})) satisfies WorkItem[];
+const worksState = createWorksListState(workItems, {}, "desc");
+---
+
+<BaseLayout
+  title="AndyVi — Работы"
+  description="Проекты AndyVi: веб-приложения, интернет-магазины, CRM и интерфейсы на Vue, Nuxt и TypeScript."
+  currentPage="works"
+  canonicalPath="/works"
+>
+  <PageFrame id="worksPage" label="02 - Работы" class="works-frame">
+    <BackgroundMedia variant="soft-shadow" />
+    <section class="hero-copy" aria-label="Вступление">
+      <h1 class="hero-title">
+        <span class="works-title-word load-glitch-title" data-glitch="МОИ РАБОТЫ">МОИ РАБОТЫ</span>
+      </h1>
+      <p>Все проекты, над которыми я работал.<br />От веб-приложений до сложных систем.</p>
+    </section>
+
+    <WorkControls totalCount={worksState.totalCount} />
+    <ProjectsGrid works={worksState.items} emptyMessage={worksState.emptyState.message || "По этим фильтрам проектов нет."} />
+    <RightRuler current="02" total="05" label="Индикатор 02-05" />
+    <HudDecor />
+    <BottomHud />
+    <CaseModal />
+  </PageFrame>
+
+  <script>
+    import { bindWorksFilterLifecycle } from "@/scripts/worksFilter";
+
+    bindWorksFilterLifecycle();
+  </script>
+</BaseLayout>
+
+<style>
+  :global(.works-frame) {
+    background:
+      linear-gradient(90deg, rgba(0, 3, 8, 0.9), rgba(0, 4, 10, 0.98) 58%, rgba(0, 2, 7, 1)),
+      radial-gradient(circle at 18% 45%, rgba(88, 172, 211, 0.16), transparent 34%),
+      radial-gradient(circle at 62% 44%, rgba(126, 210, 255, 0.08), transparent 30%),
+      var(--bg);
+  }
+
+  :global(.works-frame)::before {
+    z-index: 1;
+    opacity: 0.82;
+    background:
+      linear-gradient(120deg, rgba(160, 226, 255, 0.06), transparent 34%),
+      radial-gradient(circle at 13% 78%, rgba(133, 217, 255, 0.12), transparent 24%),
+      linear-gradient(180deg, rgba(255, 255, 255, 0.03), transparent 24%, transparent 74%, rgba(0, 0, 0, 0.68));
+  }
+
+  :global(.works-frame)::after {
+    z-index: 2;
+    opacity: 0.36;
+    background:
+      radial-gradient(circle at 50% 48%, transparent 0 38%, rgba(0, 0, 0, 0.58) 76%),
+      repeating-linear-gradient(90deg, rgba(255, 255, 255, 0.018) 0 1px, transparent 1px 112px);
+    mix-blend-mode: screen;
+  }
+
+  .hero-copy {
+    position: absolute;
+    top: 170px;
+    left: 72px;
+    z-index: var(--z-content);
+    width: 720px;
+  }
+
+  .hero-title {
+    color: var(--cold-white);
+    font-family: var(--font-heading);
+    font-size: 78px;
+    font-weight: var(--font-weight-black);
+    letter-spacing: var(--letter-ui);
+    line-height: var(--line-display);
+    text-shadow:
+      0 0 22px rgba(192, 233, 255, 0.2),
+      0 0 46px rgba(98, 188, 238, 0.12);
+    text-transform: uppercase;
+  }
+
+  .hero-title::after {
+    display: block;
+    width: 392px;
+    height: 1px;
+    margin-block-start: 24px;
+    background: linear-gradient(90deg, rgba(226, 248, 255, 0.82), rgba(150, 224, 255, 0.2), transparent);
+    box-shadow: 0 0 14px rgba(181, 232, 255, 0.26);
+    content: "";
+  }
+
+  .hero-copy p {
+    width: 520px;
+    margin-block-start: 22px;
+    color: rgba(213, 223, 230, 0.84);
+    font-size: 22px;
+    line-height: var(--line-copy);
+  }
+
+  @media (width < 1280px) {
+    .hero-copy {
+      position: relative;
+      top: auto;
+      left: auto;
+      width: auto;
+      padding: 132px var(--gutter-responsive-inline) 34px;
+    }
+
+    .hero-title {
+      font-size: var(--text-title-tablet);
+    }
+
+    .hero-copy p {
+      width: min(620px, 100%);
+      font-size: var(--text-lead-compact);
+    }
+  }
+
+  @media (width < 820px) {
+    .hero-copy {
+      padding: 108px max(var(--space-8), env(safe-area-inset-right)) 28px max(var(--space-8), env(safe-area-inset-left));
+    }
+
+    .hero-title {
+      font-size: var(--text-title-mobile);
+    }
+
+    .hero-title::after {
+      width: min(310px, 72vw);
+    }
+
+    .hero-copy p {
+      font-size: 18px;
+    }
+  }
+</style>

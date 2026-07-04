@@ -1,0 +1,39 @@
+{
+  "name": "andyvi-portfolio",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "packageManager": "npm@11.6.2",
+  "engines": {
+    "node": "24.17.0",
+    "npm": "11.6.2"
+  },
+  "scripts": {
+    "dev": "astro dev",
+    "preview": "astro preview",
+    "check": "astro check",
+    "lint": "npm run check",
+    "format:check": "prettier --check package.json astro.config.mjs tsconfig.json src/env.d.ts",
+    "test": "npm run test:unit",
+    "test:unit": "node --test",
+    "test:coverage": "node --test --experimental-test-coverage",
+    "test:e2e": "node --test tests/e2e",
+    "build": "astro build",
+    "validate": "npm run check && npm run lint && npm run format:check && npm run test:unit && npm run build",
+    "supervibe-update": "supervibe-update"
+  },
+  "dependencies": {
+    "@astrojs/node": "10.1.4",
+    "astro": "6.4.8",
+    "nodemailer": "9.0.1"
+  },
+  "devDependencies": {
+    "@astrojs/check": "0.9.9",
+    "@playwright/test": "^1.61.1",
+    "@types/node": "24.13.2",
+    "@types/nodemailer": "8.0.1",
+    "jsdom": "^29.1.1",
+    "prettier": "3.8.4",
+    "typescript": "5.9.3"
+  }
+}

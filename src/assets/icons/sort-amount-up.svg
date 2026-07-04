@@ -1,0 +1,14 @@
+<!--
+  Provenance: production replacement for missing docs/public/assets/sort-amount-up.svg.
+  Source pool only contained icon-sort-amount-up.png and sort-amount-up.jpg;
+  this simple SVG keeps the sort-amount-up contract local and unencumbered.
+-->
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" role="img" aria-label="Sort ascending">
+  <g fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M6 19V5" />
+    <path d="M3.5 7.5 6 5l2.5 2.5" />
+    <path d="M11 17h8" />
+    <path d="M11 12h6" />
+    <path d="M11 7h3" />
+  </g>
+</svg>

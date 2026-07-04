@@ -1,0 +1,187 @@
+<section class="home-hero" aria-labelledby="home-title">
+  <div class="eyebrow">ПРИВЕТ, Я АНДРЕЙ</div>
+  <div class="eyebrow-rule"></div>
+
+  <h1 id="home-title" class="hero-title">
+    <span>ФРОНТЕНД</span>
+    <span>РАЗРАБОТЧИК</span>
+  </h1>
+
+  <div class="title-baseline" aria-hidden="true"></div>
+  <p class="lead">
+    Создаю масштабируемые сервисы<br />
+    с фокусом на производительность,<br />
+    архитектуру и качество кода.
+  </p>
+</section>
+
+<style>
+  .home-hero {
+    z-index: var(--z-content);
+    display: flex;
+    flex-direction: column;
+  }
+
+  .eyebrow {
+    color: var(--cold-white);
+    font-family: var(--font-heading);
+    font-size: clamp(0.875rem, 0.75rem + 0.625vw, 1.5rem);
+    font-weight: var(--font-weight-medium);
+    line-height: var(--line-none);
+    text-shadow: 0 0 12px rgba(189, 232, 255, 0.25);
+    text-transform: uppercase;
+  }
+
+  .eyebrow-rule {
+    position: relative;
+    translate: 0 1rem;
+    height: var(--border-width-hairline);
+    background: linear-gradient(
+      90deg,
+      rgba(225, 246, 255, 0.38),
+      rgba(225, 246, 255, 0.18) 58%,
+      transparent
+    );
+    box-shadow: 0 0 12px rgba(177, 229, 255, 0.22);
+  }
+
+  .eyebrow-rule::before,
+  .eyebrow-rule::after,
+  .title-baseline::after {
+    position: absolute;
+    pointer-events: none;
+    content: "";
+  }
+
+  .eyebrow-rule::before {
+    top: -4px;
+    left: 0;
+    width: 78px;
+    height: 8px;
+    clip-path: polygon(6px 0, 100% 0, calc(100% - 10px) 100%, 0 100%);
+    background: repeating-linear-gradient(
+      110deg,
+      rgba(179, 231, 255, 0.62) 0 4px,
+      transparent 4px 9px
+    );
+    opacity: 0.6;
+  }
+
+  .eyebrow-rule::after {
+    top: -1px;
+    right: -74px;
+    width: 78px;
+    height: 24px;
+    border-top: var(--border-width-hairline) solid rgba(206, 236, 249, 0.2);
+    border-right: var(--border-width-hairline) solid rgba(206, 236, 249, 0.28);
+    transform: skewX(38deg);
+  }
+
+  .hero-title {
+    margin-block-start: 2rem;
+    color: var(--cold-white);
+    font-family: var(--font-heading);
+    font-size: clamp(2rem, 1.75rem + 1.25vw, 3.25rem);
+    line-height: clamp(2rem, 1.75rem + 1.25vw, 3.25rem);
+    font-weight: 800;
+    line-height: 1.22;
+    letter-spacing: 0.018em;
+    text-shadow: var(--text-shadow-title);
+    text-transform: uppercase;
+  }
+
+  .hero-title span {
+    display: block;
+    white-space: nowrap;
+  }
+
+  .title-baseline {
+    height: var(--border-width-hairline);
+    background: linear-gradient(
+      90deg,
+      rgba(222, 243, 255, 0.38),
+      rgba(222, 243, 255, 0.13) 72%,
+      transparent
+    );
+    position: relative;
+    translate: 0 1rem;
+  }
+
+  .title-baseline::after {
+    top: 0;
+    right: -48px;
+    width: 90px;
+    height: 18px;
+    border-top: var(--border-width-hairline) solid rgba(217, 240, 255, 0.16);
+    border-right: var(--border-width-hairline) solid rgba(217, 240, 255, 0.18);
+    transform: skewX(-34deg);
+  }
+
+  .lead {
+    margin-block-start: 2rem;
+    color: #b7c0c9;
+    font-family: var(--font-body);
+    font-size: clamp(0.875rem, 0.75rem + 0.625vw, 1.5rem);
+    line-height: var(--line-relaxed);
+    font-weight: 300;
+    text-shadow: 0 0 14px rgba(165, 215, 240, 0.12);
+  }
+
+  @media (width < 1280px) {
+    .home-hero {
+      position: relative;
+      top: auto;
+      left: auto;
+      width: min(100%, 720px);
+      height: auto;
+      min-height: 0;
+    }
+
+    .eyebrow,
+    .eyebrow-rule,
+    .title-baseline {
+      position: relative;
+      top: auto;
+      left: auto;
+      width: 100%;
+    }
+
+    .eyebrow-rule {
+      max-width: 610px;
+    }
+
+    .eyebrow-rule::after {
+      right: 0;
+      width: 48px;
+    }
+
+    .title-baseline {
+      max-width: 620px;
+    }
+
+    .title-baseline::after {
+      right: 0;
+      width: 54px;
+    }
+  }
+
+  @media (width < 820px) {
+    .home-hero {
+      width: 100%;
+    }
+
+    .eyebrow-rule {
+      max-width: 100%;
+    }
+
+    .lead br {
+      display: none;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .hero-title span {
+      animation: none;
+    }
+  }
+</style>

@@ -1,0 +1,389 @@
+---
+import { TECHNOLOGY_KEYS, getTechnology } from "@/data/technologies";
+import { WORK_CATEGORIES, type WorkCategory } from "@/utils/works";
+import TechnologyIcon from "./TechnologyIcon.astro";
+
+interface Props {
+  totalCount: number;
+}
+
+const { totalCount } = Astro.props;
+const categoryLabels = {
+  web: "Веб-приложения",
+  shop: "Интернет-магазины",
+  crm: "CRM / ERP",
+  saas: "SaaS",
+} satisfies Record<WorkCategory, string>;
+const categories: Array<{ value: "all" | WorkCategory; label: string }> = [
+  { value: "all", label: "Все категории" },
+  ...WORK_CATEGORIES.map((category) => ({
+    value: category,
+    label: categoryLabels[category],
+  })),
+];
+const technologies = TECHNOLOGY_KEYS.map(getTechnology);
+---
+
+<section class="work-controls" aria-label="Фильтры проектов">
+  <label class="search-box" for="projectSearch">
+    <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+      <path d="M10.8 18.1a7.3 7.3 0 1 1 0-14.6 7.3 7.3 0 0 1 0 14.6Z" stroke="currentColor" stroke-width="1.8" />
+      <path d="m16.2 16.2 4.3 4.3" stroke="currentColor" stroke-linecap="round" stroke-width="1.8" />
+    </svg>
+    <span class="sr-only">Поиск проектов</span>
+    <input id="projectSearch" data-works-search type="search" autocomplete="off" placeholder="Поиск проектов..." aria-label="Поиск проектов" />
+  </label>
+
+  {
+    categories.map((category, index) => (
+      <button class:list={["category-button", { "is-active": index === 0 }]} type="button" data-category={category.value}>
+        {category.label}
+      </button>
+    ))
+  }
+
+  <button class="filter-toggle" id="filterToggle" type="button" aria-expanded="false" aria-controls="advancedFilters" aria-label="Открыть фильтры по стеку">
+    <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+      <path d="M4 7h10M18 7h2M4 17h2M10 17h10" stroke="currentColor" stroke-linecap="round" stroke-width="1.7" />
+      <path d="M14 5v4M8 15v4" stroke="currentColor" stroke-linecap="round" stroke-width="1.7" />
+    </svg>
+  </button>
+
+  <button class="sort-box" id="sortBox" data-works-sort type="button" aria-label="Sort projects: newest first" aria-pressed="false">
+    <svg class="sort-icon sort-icon-desc" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+      <path d="M7 4v14m0 0 4-4m-4 4-4-4M14 6h7M14 12h5M14 18h3" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" />
+    </svg>
+    <svg class="sort-icon sort-icon-asc" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+      <path d="M7 20V6m0 0 4 4M7 6l-4 4M14 6h3M14 12h5M14 18h7" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" />
+    </svg>
+  </button>
+</section>
+
+<div class="advanced-panel" id="advancedFilters" data-works-advanced aria-label="Фильтры по технологиям">
+  {
+    technologies.map((technology) => (
+      <label class="tag-check">
+        <input type="checkbox" name="tech" value={technology.key} data-tech-filter />
+        <span class="check-face" aria-hidden="true"></span>
+        <span class="tag-label">
+          <TechnologyIcon technology={technology} class="filter-tech-icon" />
+          {technology.label}
+        </span>
+      </label>
+    ))
+  }
+</div>
+
+<div class="results-status" id="resultsStatus" data-works-status aria-live="polite">Показано {totalCount} проекта</div>
+
+<style>
+  .work-controls {
+    position: absolute;
+    top: 382px;
+    left: 72px;
+    z-index: calc(var(--z-content) + 1);
+    display: flex;
+    flex-wrap: wrap;
+    gap: 14px;
+    align-items: center;
+    width: 1680px;
+  }
+
+  .search-box,
+  .filter-toggle,
+  .category-button,
+  .sort-box {
+    min-height: 56px;
+    color: rgba(244, 248, 255, 0.9);
+    border: 1px solid rgba(188, 231, 249, 0.22);
+    border-radius: var(--radius-none);
+    background: rgba(3, 10, 17, 0.68);
+    box-shadow: inset 0 0 20px rgba(107, 194, 240, 0.035);
+    clip-path: polygon(10px 0, 100% 0, 100% calc(100% - 10px), calc(100% - 10px) 100%, 0 100%, 0 10px);
+  }
+
+  .search-box {
+    display: grid;
+    grid-template-columns: 48px minmax(0, 1fr);
+    align-items: center;
+    width: 350px;
+  }
+
+  .search-box svg,
+  .filter-toggle svg,
+  .sort-box svg {
+    width: 20px;
+    height: 20px;
+    color: rgba(221, 243, 255, 0.86);
+  }
+
+  .search-box svg {
+    justify-self: center;
+  }
+
+  .search-box input {
+    width: 100%;
+    height: 100%;
+    min-width: 0;
+    padding-inline-end: 16px;
+    color: var(--cold-white);
+    border: 0;
+    outline: 0;
+    background: transparent;
+    font-size: 17px;
+  }
+
+  .search-box input::placeholder {
+    color: rgba(210, 221, 228, 0.64);
+  }
+
+  .filter-toggle,
+  .category-button,
+  .sort-box {
+    display: inline-grid;
+    place-items: center;
+    cursor: pointer;
+    transition:
+      border-color var(--dur-base) var(--ease-standard),
+      box-shadow var(--dur-base) var(--ease-standard),
+      color var(--dur-base) var(--ease-standard),
+      transform var(--dur-base) var(--ease-standard);
+  }
+
+  .category-button {
+    padding-inline: 20px;
+    font-size: 16px;
+    white-space: nowrap;
+  }
+
+  .filter-toggle,
+  .sort-box {
+    width: 58px;
+    padding: 0;
+  }
+
+  .filter-toggle {
+    margin-inline-start: auto;
+  }
+
+  .sort-icon-asc,
+  .sort-box.is-reversed .sort-icon-desc {
+    display: none;
+  }
+
+  .sort-box.is-reversed .sort-icon-asc {
+    display: block;
+  }
+
+  .sort-box:hover,
+  .sort-box:focus-visible,
+  .filter-toggle:hover,
+  .filter-toggle:focus-visible,
+  .filter-toggle[aria-expanded="true"],
+  .category-button:hover,
+  .category-button:focus-visible,
+  .category-button.is-active {
+    color: #fff;
+    border-color: rgba(205, 242, 255, 0.58);
+    box-shadow:
+      0 0 18px rgba(139, 218, 255, 0.14),
+      inset 0 0 22px rgba(109, 205, 255, 0.08);
+  }
+
+  .sort-box:hover,
+  .filter-toggle:hover,
+  .category-button:hover {
+    transform: translateY(-1px);
+  }
+
+  .advanced-panel {
+    position: absolute;
+    top: 424px;
+    right: 240px;
+    z-index: calc(var(--z-content) + 1);
+    display: none;
+    grid-template-columns: repeat(5, auto);
+    gap: 10px;
+    padding: 12px;
+    border: 1px solid rgba(186, 235, 255, 0.3);
+    background: rgba(2, 8, 14, 0.92);
+    box-shadow:
+      0 20px 60px rgba(0, 0, 0, 0.38),
+      0 0 22px rgba(98, 188, 238, 0.12);
+    clip-path: polygon(12px 0, 100% 0, 100% calc(100% - 12px), calc(100% - 12px) 100%, 0 100%, 0 12px);
+  }
+
+  .advanced-panel.is-open {
+    display: grid;
+  }
+
+  .tag-check {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    min-height: 40px;
+    padding-inline: 14px;
+    color: rgba(232, 244, 250, 0.8);
+    border: 1px solid rgba(186, 235, 255, 0.18);
+    font-size: 14px;
+    cursor: pointer;
+    transition:
+      border-color var(--dur-base) var(--ease-standard),
+      box-shadow var(--dur-base) var(--ease-standard),
+      color var(--dur-base) var(--ease-standard);
+  }
+
+  .tag-check:hover,
+  .tag-check:focus-within {
+    color: rgba(244, 248, 255, 0.95);
+    border-color: rgba(205, 242, 255, 0.32);
+  }
+
+  .tag-check input {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    opacity: 0;
+    appearance: none;
+  }
+
+  .check-face {
+    position: relative;
+    display: inline-grid;
+    width: 16px;
+    height: 16px;
+    flex: 0 0 auto;
+    place-items: center;
+    border: 1px solid rgba(188, 231, 249, 0.22);
+    background: rgba(3, 10, 17, 0.68);
+    clip-path: polygon(3px 0, 100% 0, 100% calc(100% - 3px), calc(100% - 3px) 100%, 0 100%, 0 3px);
+    transition:
+      background var(--dur-base) var(--ease-standard),
+      border-color var(--dur-base) var(--ease-standard),
+      box-shadow var(--dur-base) var(--ease-standard);
+  }
+
+  .check-face::after {
+    width: 8px;
+    height: 5px;
+    border-bottom: 2px solid rgba(221, 245, 255, 0.9);
+    border-left: 2px solid rgba(221, 245, 255, 0.9);
+    opacity: 0;
+    content: "";
+    transform: rotate(-45deg) translate(1px, -1px);
+    transition: opacity var(--dur-base) var(--ease-standard);
+  }
+
+  .tag-check input:checked + .check-face {
+    border-color: rgba(205, 242, 255, 0.58);
+    background: rgba(53, 144, 184, 0.34);
+    box-shadow: 0 0 14px rgba(117, 216, 255, 0.18);
+  }
+
+  .tag-check input:checked + .check-face::after {
+    opacity: 1;
+  }
+
+  .tag-check input:focus-visible + .check-face {
+    outline: var(--border-width-focus) solid var(--color-focus-ring);
+    outline-offset: 4px;
+  }
+
+  .tag-label {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    white-space: nowrap;
+  }
+
+  .results-status {
+    position: absolute;
+    top: 454px;
+    left: 72px;
+    z-index: var(--z-content);
+    color: rgba(244, 248, 255, 0.5);
+    font-family: var(--font-heading);
+    font-size: 13px;
+    letter-spacing: var(--letter-label);
+    line-height: 1;
+    text-transform: uppercase;
+  }
+
+  @media (width < 1840px) and (width >= 1280px) {
+    .work-controls {
+      right: 124px;
+      width: auto;
+    }
+  }
+
+  @media (width < 1280px) {
+    .work-controls,
+    .advanced-panel,
+    .results-status {
+      position: relative;
+      top: auto;
+      left: auto;
+      right: auto;
+      width: auto;
+      margin-inline: var(--gutter-responsive-inline);
+    }
+
+    .work-controls {
+      padding-block-start: 0;
+    }
+
+    .advanced-panel {
+      margin-block-start: 14px;
+      grid-template-columns: repeat(5, minmax(0, auto));
+      width: fit-content;
+    }
+
+    .results-status {
+      margin-block: 18px 18px;
+    }
+  }
+
+  @media (width < 820px) {
+    .work-controls,
+    .advanced-panel,
+    .results-status {
+      margin-inline: max(var(--space-8), env(safe-area-inset-left)) max(var(--space-8), env(safe-area-inset-right));
+    }
+
+    .work-controls {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 10px;
+    }
+
+    .search-box {
+      grid-column: 1 / -1;
+      width: 100%;
+    }
+
+    .category-button {
+      min-width: 0;
+      padding-inline: 10px;
+      font-size: 14px;
+      white-space: normal;
+    }
+
+    .filter-toggle {
+      margin-inline-start: 0;
+    }
+
+    .advanced-panel,
+    .advanced-panel.is-open {
+      grid-template-columns: 1fr;
+      width: auto;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .sort-box:hover,
+    .filter-toggle:hover,
+    .category-button:hover {
+      transform: none;
+    }
+  }
+</style>

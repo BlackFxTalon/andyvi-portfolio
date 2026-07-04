@@ -1,0 +1,270 @@
+---
+import { getTechnology } from "@/data/technologies";
+import type { WorkItem } from "@/utils/works";
+import ProjectPreview from "./ProjectPreview.astro";
+import TechnologyIcon from "./TechnologyIcon.astro";
+
+interface Props {
+  work: WorkItem;
+}
+
+const { work } = Astro.props;
+const technologies = work.stack.map(getTechnology);
+const primaryLink = work.links?.[0];
+const stackValue = work.stack.join(" ");
+---
+
+<article
+  class="project-card"
+  data-title={work.title}
+  data-type={work.type}
+  data-category={work.category}
+  data-status={work.status}
+  data-year={String(work.year)}
+  data-date={String(work.year)}
+  data-stack={stackValue}
+  data-detail={work.details ?? work.summary}
+>
+  <ProjectPreview work={work} />
+
+  <div class="project-body">
+    <h2 class="project-title">{work.title}</h2>
+    <div class="project-kicker">{work.type}</div>
+    <p class="project-desc">{work.summary}</p>
+    <div class="stack-label">Описание технологии/стек</div>
+    <div class="tag-row" aria-label="Технологии проекта">
+      {
+        technologies.map((technology) => (
+          <span class="tech-tag" data-tech-category={technology.category}>
+            <TechnologyIcon technology={technology} />
+            {technology.label}
+          </span>
+        ))
+      }
+    </div>
+  </div>
+
+  <div class="card-actions">
+    <button class="card-open" type="button" aria-haspopup="dialog" data-action="open-case">
+      Описание проекта <span aria-hidden="true">›</span>
+    </button>
+    {
+      primaryLink ? (
+        <a class="card-link" href={primaryLink.href} aria-label={`${primaryLink.label}: ${work.title}`} target="_blank" rel="noreferrer">
+          {primaryLink.label} <span aria-hidden="true">↗</span>
+        </a>
+      ) : (
+        <span class="card-link is-disabled" aria-label={`Ссылка на проект ${work.title} недоступна`}>
+          Ссылка на проект <span aria-hidden="true">↗</span>
+        </span>
+      )
+    }
+  </div>
+</article>
+
+<style>
+  .project-card {
+    position: relative;
+    display: grid;
+    grid-template-columns: 456px minmax(0, 1fr);
+    gap: 22px;
+    min-height: 286px;
+    padding: 18px 20px;
+    overflow: hidden;
+    color: inherit;
+    border: 1px solid rgba(177, 224, 244, 0.24);
+    background: linear-gradient(180deg, rgba(8, 20, 29, 0.58), rgba(1, 5, 10, 0.72));
+    box-shadow: var(--shadow-panel);
+    clip-path: polygon(20px 0, 100% 0, 100% calc(100% - 20px), calc(100% - 20px) 100%, 0 100%, 0 20px);
+    transition: var(--transition-panel), opacity var(--dur-base) var(--ease-standard);
+  }
+
+  .project-card::before {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    opacity: 0;
+    background:
+      linear-gradient(90deg, rgba(169, 226, 255, 0.12), transparent 22%),
+      linear-gradient(180deg, rgba(255, 255, 255, 0.035), transparent 28%);
+    content: "";
+    transition: opacity var(--dur-base) var(--ease-standard);
+  }
+
+  .project-card:hover,
+  .project-card:focus-within {
+    border-color: rgba(208, 244, 255, 0.58);
+    box-shadow: var(--shadow-panel-hover);
+    transform: translateY(-4px);
+  }
+
+  .project-card:hover::before,
+  .project-card:focus-within::before {
+    opacity: 1;
+  }
+
+  .project-card[hidden],
+  .project-card.is-hidden {
+    display: none;
+  }
+
+  .project-body {
+    position: relative;
+    z-index: 2;
+    display: flex;
+    min-width: 0;
+    flex-direction: column;
+    padding-block-start: 8px;
+  }
+
+  .project-title {
+    margin-block-end: 6px;
+    color: var(--cold-white);
+    font-family: var(--font-heading);
+    font-size: 29px;
+    font-weight: var(--font-weight-semibold);
+    letter-spacing: var(--letter-ui);
+    line-height: var(--line-none);
+    text-transform: uppercase;
+  }
+
+  .project-kicker {
+    color: rgba(216, 235, 245, 0.72);
+    font-size: 16px;
+    line-height: 1.2;
+  }
+
+  .project-desc {
+    max-width: 330px;
+    margin-block: 14px 16px;
+    color: rgba(207, 218, 225, 0.76);
+    font-size: 15px;
+    line-height: 1.45;
+  }
+
+  .stack-label {
+    margin-block-start: auto;
+    color: rgba(244, 248, 255, 0.44);
+    font-family: var(--font-heading);
+    font-size: 11px;
+    letter-spacing: var(--letter-label);
+    line-height: 1;
+    text-transform: uppercase;
+  }
+
+  .tag-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-block-start: 10px;
+  }
+
+  .tech-tag {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    min-height: 30px;
+    max-width: 100%;
+    padding-inline: 10px;
+    overflow: hidden;
+    color: rgba(237, 247, 252, 0.88);
+    border: 1px solid rgba(186, 235, 255, 0.16);
+    background: rgba(4, 12, 18, 0.52);
+    font-size: 13px;
+    line-height: 1;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .card-actions {
+    position: absolute;
+    right: 20px;
+    bottom: 18px;
+    z-index: 3;
+    display: flex;
+    gap: 12px;
+  }
+
+  .card-open,
+  .card-link {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 38px;
+    padding-inline: 14px;
+    color: rgba(244, 248, 255, 0.86);
+    border: 1px solid rgba(188, 231, 249, 0.18);
+    background: rgba(3, 10, 17, 0.64);
+    font-family: var(--font-heading);
+    font-size: 13px;
+    letter-spacing: var(--letter-ui);
+    line-height: 1;
+    white-space: nowrap;
+    cursor: pointer;
+    transition:
+      border-color var(--dur-base) var(--ease-standard),
+      box-shadow var(--dur-base) var(--ease-standard),
+      color var(--dur-base) var(--ease-standard),
+      transform var(--dur-base) var(--ease-standard);
+  }
+
+  .card-link.is-disabled {
+    cursor: default;
+    opacity: 0.5;
+  }
+
+  .card-open:hover,
+  .card-open:focus-visible,
+  .card-link:not(.is-disabled):hover,
+  .card-link:not(.is-disabled):focus-visible {
+    color: #fff;
+    border-color: rgba(205, 242, 255, 0.5);
+    box-shadow: var(--shadow-control);
+    transform: translateY(-1px);
+  }
+
+  @media (width < 1440px) and (width >= 1280px) {
+    .project-card {
+      grid-template-columns: 365px minmax(0, 1fr);
+    }
+  }
+
+  @media (width < 1280px) {
+    .project-card {
+      grid-template-columns: minmax(280px, 0.92fr) minmax(0, 1fr);
+    }
+  }
+
+  @media (width < 820px) {
+    .project-card {
+      grid-template-columns: 1fr;
+      min-height: 0;
+      padding: 18px;
+    }
+
+    .project-title {
+      font-size: 28px;
+    }
+
+    .project-desc {
+      max-width: none;
+    }
+
+    .card-actions {
+      position: static;
+      flex-wrap: wrap;
+      margin-block-start: 16px;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .project-card:hover,
+    .project-card:focus-within,
+    .card-open:hover,
+    .card-open:focus-visible,
+    .card-link:not(.is-disabled):hover,
+    .card-link:not(.is-disabled):focus-visible {
+      transform: none;
+    }
+  }
+</style>

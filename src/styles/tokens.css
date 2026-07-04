@@ -1,0 +1,254 @@
+@layer tokens {
+  :root {
+    /*
+      Frozen from:
+      - docs/spec/spec.md, section 5.1 and CSS policy
+      - docs/spec/prototypes/extracted/{about,contacts,index,process,works}.html root tokens
+      - docs/spec/prototypes/extracted/brand-spec.md
+
+      Typography precedence: the exported HTML and implementation spec use
+      Tektur for heading/UI roles. brand-spec.md keeps Unbounded as earlier
+      image-reference evidence, so it is preserved as a reference token only.
+    */
+
+    /* Core color system */
+    --bg: oklch(7% 0.018 250);
+    --surface: oklch(10% 0.022 250);
+    --fg: oklch(96% 0.015 240);
+    --muted: oklch(75% 0.018 240);
+    --border: oklch(66% 0.065 235);
+    --accent: oklch(74% 0.12 225);
+
+    /* Prototype aliases */
+    --accent-soft: rgba(151, 220, 255, 0.22);
+    --cold-white: #f4f8ff;
+    --cyan: #b7e8ff;
+    --deep: #00040a;
+    --surface-strong: rgba(3, 10, 17, 0.82);
+
+    /* Role colors */
+    --color-page-bg: #02050a;
+    --color-frame-bg: #010308;
+    --color-overlay-bg: rgba(0, 5, 12, 0.92);
+    --color-panel-bg: rgba(3, 10, 17, 0.54);
+    --color-panel-bg-strong: rgba(3, 10, 17, 0.94);
+    --color-panel-border: rgba(188, 231, 249, 0.24);
+    --color-panel-border-strong: rgba(205, 242, 255, 0.54);
+    --color-line-soft: rgba(191, 220, 238, 0.18);
+    --color-line-strong: rgba(211, 240, 255, 0.24);
+    --color-text-strong: rgba(244, 248, 255, 0.92);
+    --color-text: rgba(244, 248, 255, 0.88);
+    --color-text-muted: rgba(216, 225, 231, 0.78);
+    --color-text-faint: rgba(244, 248, 255, 0.48);
+    --color-focus-ring: rgba(205, 242, 255, 0.78);
+
+    /* Accent and state colors retained from exported controls and glitches */
+    --color-accent-cyan: #91ecff;
+    --color-accent-cyan-alt: #8feaff;
+    --color-accent-rose: #ff567b;
+    --color-accent-rose-alt: #ff5f82;
+    --color-success: #a8f0d1;
+    --color-success-bg: rgba(20, 48, 36, 0.42);
+    --color-success-border: rgba(168, 240, 209, 0.36);
+    --color-danger: rgba(255, 150, 150, 0.92);
+    --color-danger-border: rgba(255, 120, 120, 0.54);
+    --color-danger-shadow: rgba(255, 110, 110, 0.1);
+
+    /* Data and technology accents visible in the Works/About prototype SVGs */
+    --color-data-blue: #36a2eb;
+    --color-data-yellow: #ffce56;
+    --color-data-teal: #4bc0c0;
+    --color-tech-vue: #41b883;
+    --color-tech-nuxt: #00dc82;
+    --color-tech-typescript: #3178c6;
+    --color-tech-gitlab: #fc6d26;
+
+    /* Typography */
+    --font-heading: "Tektur", "Arial Narrow", system-ui, sans-serif;
+    --font-display: var(--font-heading);
+    --font-display-brand-reference: "Unbounded", "Arial Black", system-ui, sans-serif;
+    --font-body: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, sans-serif;
+    --font-mono: "JetBrains Mono", "IBM Plex Mono", ui-monospace, Menlo, monospace;
+
+    --font-weight-regular: 400;
+    --font-weight-medium: 500;
+    --font-weight-semibold: 600;
+    --font-weight-bold: 700;
+    --font-weight-black: 900;
+
+    --letter-tight: 0;
+    --letter-ui: 0.04em;
+    --letter-label: 0.12em;
+    --letter-wide: 0.16em;
+    --letter-wider: 0.18em;
+
+    --line-none: 1;
+    --line-compact: 1.08;
+    --line-copy: 1.45;
+    --line-relaxed: 1.55;
+    --line-display: 0.94;
+    --line-display-tight: 0.9;
+
+    /* Fluid type values copied from prototype media rules */
+    --text-nav: clamp(14px, 1.8vw, 17px);
+    --text-body: clamp(16px, 1.4vw, 20px);
+    --text-lead: clamp(18px, 2.5vw, 24px);
+    --text-lead-compact: clamp(18px, 2.5vw, 22px);
+    --text-title-mobile: clamp(44px, 13vw, 58px);
+    --text-title-tablet: clamp(56px, 9vw, 90px);
+    --text-title-large: clamp(62px, 9vw, 112px);
+
+    /* Spacing scale */
+    --space-0: 0;
+    --space-1: 2px;
+    --space-2: 4px;
+    --space-3: 6px;
+    --space-4: 8px;
+    --space-5: 10px;
+    --space-6: 12px;
+    --space-7: 14px;
+    --space-8: 16px;
+    --space-10: 20px;
+    --space-12: 24px;
+    --space-14: 28px;
+    --space-16: 32px;
+    --space-20: 40px;
+    --space-21: 42px;
+    --space-24: 48px;
+    --space-29: 58px;
+    --space-32: 64px;
+
+    /* Prototype responsive shell constants, consumed later by layout work */
+    --frame-width: 1920px;
+    --frame-height: 1080px;
+    --breakpoint-mobile-max: 767px;
+    --breakpoint-tablet-min: 768px;
+    --breakpoint-cinematic-min: 1200px;
+    --gutter-responsive-inline: clamp(24px, 5vw, 58px);
+    --gutter-responsive-block-start: 42px;
+    --gutter-responsive-block-end: 64px;
+
+    /* Radius */
+    --radius-none: 0;
+    --radius-hairline: 1px;
+    --radius-chip: 2px;
+    --radius-control: 4px;
+    --radius-control-lg: 5px;
+    --radius-window: 8px 8px 4px 4px;
+    --radius-pill: 999px;
+    --radius-round: 50%;
+
+    /* Borders and outlines */
+    --border-width-hairline: 1px;
+    --border-width-focus: 1px;
+    --focus-offset-sm: 6px;
+    --focus-offset-md: 8px;
+
+    /* Shadows, glows, and effect hooks from repeated prototype values */
+    --shadow-logo-line: 0 0 8px rgba(174, 226, 255, 0.42);
+    --shadow-nav-active: 0 0 12px rgba(172, 228, 255, 0.38);
+    --shadow-panel:
+      inset 0 0 34px rgba(111, 194, 239, 0.05),
+      0 0 32px rgba(91, 183, 231, 0.05);
+    --shadow-panel-hover:
+      inset 0 0 34px rgba(111, 194, 239, 0.08),
+      0 0 34px rgba(109, 205, 255, 0.14);
+    --shadow-control:
+      inset 0 0 16px rgba(129, 203, 247, 0.08),
+      0 0 20px rgba(126, 207, 255, 0.12);
+    --shadow-control-active:
+      inset 0 0 18px rgba(158, 220, 255, 0.12),
+      inset 0 -1px 0 rgba(234, 250, 255, 0.44),
+      0 0 30px rgba(126, 207, 255, 0.24),
+      0 0 0 1px rgba(178, 232, 255, 0.16);
+    --shadow-ruler-dot: 0 0 16px rgba(184, 232, 255, 0.42);
+    --shadow-ruler-dot-small: 0 0 10px rgba(187, 234, 255, 0.5);
+    --shadow-modal:
+      0 30px 90px rgba(0, 0, 0, 0.52),
+      0 0 44px rgba(105, 205, 255, 0.13);
+    --shadow-mobile-menu:
+      0 20px 60px rgba(0, 0, 0, 0.42),
+      0 0 24px rgba(104, 208, 255, 0.12);
+
+    --text-shadow-logo: 0 0 10px rgba(180, 225, 255, 0.18);
+    --text-shadow-nav: 0 0 9px rgba(199, 232, 255, 0.22);
+    --text-shadow-strong:
+      0 0 10px rgba(204, 239, 255, 0.44),
+      0 0 22px rgba(119, 201, 255, 0.2);
+    --text-shadow-title:
+      0 0 2px rgba(255, 255, 255, 0.9),
+      0 0 18px rgba(168, 223, 255, 0.3),
+      0 0 36px rgba(97, 177, 230, 0.18);
+    --text-shadow-glitch-cyan:
+      7px 0 0 rgba(143, 234, 255, 0.55),
+      -5px 0 0 rgba(255, 95, 130, 0.36),
+      0 0 16px rgba(181, 232, 255, 0.34);
+    --text-shadow-glitch-rose:
+      -12px 0 0 rgba(103, 239, 255, 0.38),
+      9px 0 0 rgba(255, 82, 123, 0.32);
+
+    --filter-orbit-glow:
+      drop-shadow(0 0 8px rgba(117, 216, 255, 0.46))
+      drop-shadow(0 0 18px rgba(56, 187, 255, 0.18));
+
+    /* Motion */
+    --dur-instant: 1ms;
+    --dur-fast: 160ms;
+    --dur-base: 180ms;
+    --dur-medium: 220ms;
+    --dur-filter: 260ms;
+    --dur-smooth: 360ms;
+    --dur-slow: 440ms;
+    --dur-page-enter: 620ms;
+    --dur-logo-glitch: 980ms;
+    --dur-title-glitch: 1180ms;
+    --dur-orbit: 1.45s;
+
+    --ease-linear: linear;
+    --ease-standard: ease;
+    --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+    --ease-in: cubic-bezier(0.65, 0, 0.35, 1);
+    --ease-shimmer: cubic-bezier(0.2, 0.9, 0.2, 1);
+    --ease-steps: steps(1, end);
+
+    --transition-hover:
+      color var(--dur-base) var(--ease-standard),
+      text-shadow var(--dur-base) var(--ease-standard),
+      transform var(--dur-base) var(--ease-standard);
+    --transition-panel:
+      transform var(--dur-base) var(--ease-standard),
+      border-color var(--dur-base) var(--ease-standard),
+      box-shadow var(--dur-base) var(--ease-standard);
+    --transition-fade-slide:
+      opacity var(--dur-base) var(--ease-standard),
+      transform var(--dur-base) var(--ease-standard);
+    --transition-filter:
+      filter var(--dur-smooth) var(--ease-standard),
+      opacity var(--dur-smooth) var(--ease-standard);
+
+    /* Layering */
+    --z-base: 0;
+    --z-background: 1;
+    --z-decor: 2;
+    --z-content: 4;
+    --z-ruler: 12;
+    --z-header: 20;
+    --z-menu: 60;
+    --z-transition: 9990;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    :root {
+      --dur-fast: 0ms;
+      --dur-base: 0ms;
+      --dur-medium: 0ms;
+      --dur-filter: 0ms;
+      --dur-smooth: 0ms;
+      --dur-slow: 0ms;
+      --dur-page-enter: 0ms;
+      --dur-logo-glitch: 0ms;
+      --dur-title-glitch: 0ms;
+      --dur-orbit: 0ms;
+    }
+  }
+}

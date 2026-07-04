@@ -1,0 +1,116 @@
+---
+import { navItems, normalizePath, type PageId } from "./navItems";
+
+interface Props {
+  currentPage: PageId;
+  currentPath: string;
+}
+
+const { currentPage, currentPath } = Astro.props;
+const normalizedPath = normalizePath(currentPath);
+const isActive = (id: PageId, href: string) =>
+  id === currentPage || normalizePath(href) === normalizedPath;
+---
+
+<nav
+  class="mobile-nav"
+  id="mobileNav"
+  aria-label="Мобильная навигация"
+  data-mobile-nav
+  data-state="closed"
+>
+  {
+    navItems.map((item) => (
+      <a
+        href={item.href}
+        aria-current={isActive(item.id, item.href) ? "page" : undefined}
+        data-mobile-nav-link
+        data-nav-item={item.id}
+        data-astro-prefetch="hover"
+      >
+        {item.shortLabel}
+      </a>
+    ))
+  }
+</nav>
+
+<style>
+  .mobile-nav {
+    inset-inline-end: 31px;
+    z-index: var(--z-menu);
+    display: none;
+    width: 214px;
+    padding: 18px 18px 20px;
+    border: var(--border-width-hairline) solid var(--color-line-strong);
+    clip-path: polygon(
+      14px 0,
+      100% 0,
+      100% calc(100% - 16px),
+      calc(100% - 18px) 100%,
+      0 100%,
+      0 14px
+    );
+    background: var(--color-overlay-bg);
+    box-shadow: var(--shadow-mobile-menu);
+    opacity: 0;
+    pointer-events: none;
+    transform: translateY(-8px);
+    transform-origin: top right;
+    transition:
+      opacity var(--dur-fast) var(--ease-standard),
+      transform var(--dur-fast) var(--ease-standard);
+  }
+
+  .mobile-nav.is-open,
+  .mobile-nav[data-state="open"] {
+    opacity: 1;
+    pointer-events: auto;
+    transform: translateY(10px);
+  }
+
+  .mobile-nav a {
+    display: block;
+    min-height: 44px;
+    padding: 13px 0 12px;
+    border-bottom: var(--border-width-hairline) solid
+      rgba(211, 240, 255, 0.1);
+    color: var(--color-text);
+    font-family: var(--font-heading);
+    font-size: 11px;
+    font-weight: var(--font-weight-medium);
+    letter-spacing: 0.14em;
+    line-height: 1.4;
+    text-transform: uppercase;
+  }
+
+  .mobile-nav a:last-child {
+    border-bottom: 0;
+  }
+
+  .mobile-nav a:hover,
+  .mobile-nav a:focus-visible,
+  .mobile-nav a[aria-current="page"] {
+    color: #fff;
+    text-shadow: var(--text-shadow-strong);
+  }
+
+  @media (width < 1280px) {
+    .mobile-nav {
+      display: block;
+      position: fixed;
+    }
+  }
+
+  @media (width < 820px) {
+    .mobile-nav {
+      width: min(214px, calc(100vw - var(--space-16) * 2));
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .mobile-nav {
+      transition: none;
+      transform: none;
+    }
+  }
+</style>

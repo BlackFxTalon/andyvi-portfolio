@@ -1,0 +1,87 @@
+---
+import { Image } from "astro:assets";
+import bgPhoto from "@/assets/images/andyvi-bg-shadow-silhouette-smoke-sharp-v2.png";
+import softShadow from "@/assets/images/andyvi-bg-shadow-soft-both-sides.png";
+import portraitTight from "@/assets/images/andyvi-portrait-tech-bg-tight-crop.png";
+
+type BackgroundVariant = "hero-smoke" | "soft-shadow" | "portrait-tight";
+
+interface Props {
+  variant?: BackgroundVariant;
+}
+
+const { variant = "hero-smoke" } = Astro.props;
+
+const assets = {
+  "hero-smoke": bgPhoto,
+  "soft-shadow": softShadow,
+  "portrait-tight": portraitTight,
+} as const;
+
+const image = assets[variant];
+---
+
+<div class="background-media" aria-hidden="true">
+  <Image
+    class="layer bg-photo"
+    src={image}
+    alt="andyVi image"
+    aria-hidden="true"
+    loading="eager"
+    decoding="async"
+  />
+</div>
+
+<style>
+  .background-media,
+  .layer {
+    pointer-events: none;
+  }
+
+  .background-media {
+    position: absolute;
+    inset: 0;
+    z-index: var(--z-background);
+    overflow: hidden;
+  }
+
+  .layer {
+    position: absolute;
+  }
+
+  .bg-photo {
+    left: 0;
+    top: 0;
+    z-index: 1;
+    max-width: 730px;
+    height: 100%;
+    object-fit: cover;
+    object-position: center center;
+    opacity: 0.98;
+  }
+
+  @media (width < 1280px) {
+    .background-media {
+      position: absolute;
+      min-height: 100%;
+    }
+
+    .bg-photo {
+      opacity: 0.82;
+    }
+
+    .right-clean-plate {
+      display: none;
+    }
+  }
+
+  @media (width < 820px) {
+    .bg-photo {
+      width: 100%;
+      min-width: 0;
+      opacity: 0.42;
+      object-position: 32% center;
+    }
+  }
+</style>
+

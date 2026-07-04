@@ -1,0 +1,83 @@
+<i class="cta-border-orbit" aria-hidden="true" data-layer="CTA / border orbit"></i>
+
+<style>
+  .cta-border-orbit {
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+    overflow: hidden;
+    padding: 1px;
+    clip-path: polygon(16px 0, 100% 0, 100% 52px, 482px 100%, 0 100%, 0 16px);
+    opacity: 1;
+    pointer-events: none;
+    filter:
+      drop-shadow(0 0 8px rgba(184, 240, 255, 0.58))
+      drop-shadow(0 0 18px rgba(70, 196, 255, 0.22));
+    transition:
+      filter var(--dur-filter) var(--ease-standard),
+      opacity var(--dur-filter) var(--ease-standard);
+    -webkit-mask:
+      linear-gradient(#000 0 0) content-box,
+      linear-gradient(#000 0 0);
+    -webkit-mask-composite: xor;
+    mask:
+      linear-gradient(#000 0 0) content-box,
+      linear-gradient(#000 0 0);
+    mask-composite: exclude;
+  }
+
+  .cta-border-orbit::before {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 150%;
+    height: 310%;
+    background: conic-gradient(
+      from 0deg,
+      rgba(128, 219, 255, 0.5) 0deg,
+      rgba(128, 219, 255, 0.42) 112deg,
+      rgba(172, 236, 255, 0.68) 138deg,
+      rgba(246, 253, 255, 0.98) 172deg,
+      rgba(92, 216, 255, 0.96) 184deg,
+      rgba(240, 252, 255, 0.9) 202deg,
+      rgba(132, 219, 255, 0.52) 244deg,
+      rgba(128, 219, 255, 0.5) 360deg
+    );
+    content: "";
+    transform: translate(-50%, -50%) rotate(0deg);
+    transform-origin: center;
+    transition:
+      background var(--dur-filter) var(--ease-standard),
+      opacity var(--dur-filter) var(--ease-standard);
+  }
+
+  :global(.cta:hover) .cta-border-orbit,
+  :global(.cta:focus-visible) .cta-border-orbit {
+    opacity: 1;
+    filter: var(--filter-orbit-glow);
+  }
+
+  :global(.cta:hover) .cta-border-orbit::before,
+  :global(.cta:focus-visible) .cta-border-orbit::before {
+    background: conic-gradient(
+      from 0deg,
+      transparent 0deg,
+      transparent 104deg,
+      rgba(109, 211, 255, 0.18) 130deg,
+      rgba(246, 253, 255, 0.98) 168deg,
+      rgba(73, 219, 255, 1) 184deg,
+      rgba(248, 253, 255, 0.9) 204deg,
+      transparent 252deg,
+      transparent 360deg
+    );
+    animation: andyvi-cta-border-orbit var(--dur-orbit) var(--ease-linear)
+      infinite;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    :global(.cta:hover) .cta-border-orbit::before,
+    :global(.cta:focus-visible) .cta-border-orbit::before {
+      animation: none;
+    }
+  }
+</style>

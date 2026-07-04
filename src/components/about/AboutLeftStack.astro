@@ -1,0 +1,437 @@
+---
+const approachSteps = [
+  {
+    icon: "◎",
+    title: "Анализ",
+    body: "Погружаюсь в задачу и бизнес-контекст",
+  },
+  {
+    icon: "◇",
+    title: "Архитектура",
+    body: "Проектирую масштабируемые и поддерживаемые решения",
+  },
+  {
+    icon: "</>",
+    title: "Разработка",
+    body: "Пишу чистый, типизированный и тестируемый код",
+  },
+  {
+    icon: "↗",
+    title: "Оптимизация",
+    body: "Забочусь о производительности и UX",
+  },
+  {
+    icon: "✓",
+    title: "Поддержка",
+    body: "Обеспечиваю качество, стабильность и развитие",
+  },
+] as const;
+
+const principles = [
+  {
+    icon: "</>",
+    title: "Чистый код",
+    body: "Пишу понятный, типизированный код, следую стандартам и лучшим практикам.",
+  },
+  {
+    icon: "⌘",
+    title: "Архитектура",
+    body: "Строю модульные приложения с прицелом на рост.",
+  },
+  {
+    icon: "△",
+    title: "Скорость",
+    body: "Оптимизирую рендеринг, загрузку и взаимодействие для Core Web Vitals.",
+  },
+  {
+    icon: "▥",
+    title: "Бизнес-фокус",
+    body: "Думаю продуктом. Мои решения приносят измеримую ценность бизнесу.",
+  },
+] as const;
+
+const strengths = [
+  "Глубокое понимание Vue-экосистемы",
+  "Оптимизация и производительность",
+  "TypeScript everywhere",
+  "Автотесты и качество кода",
+  "Архитектура и масштабирование",
+  "CI/CD и DevOps-подход",
+  "Интеграции и работа с API",
+  "Самостоятельность и ответственность",
+] as const;
+---
+
+<section class="left-stack" aria-label="Разделы обо мне">
+  <article class="hud-panel approach" aria-labelledby="about-approach-title">
+    <h2 class="panel-title" id="about-approach-title">Подход</h2>
+    <ol class="approach-grid" aria-label="Этапы работы">
+      {
+        approachSteps.map((step) => (
+          <li class="step-card">
+            <span class="step-icon" aria-hidden="true">{step.icon}</span>
+            <h3>{step.title}</h3>
+            <p>{step.body}</p>
+          </li>
+        ))
+      }
+    </ol>
+  </article>
+
+  <article class="hud-panel principles" aria-labelledby="about-principles-title">
+    <h2 class="panel-title" id="about-principles-title">Принципы</h2>
+    <ul class="principles-grid" aria-label="Принципы разработки">
+      {
+        principles.map((principle) => (
+          <li class="principle-card">
+            <span class="principle-icon" aria-hidden="true">{principle.icon}</span>
+            <h3>{principle.title}</h3>
+            <p>{principle.body}</p>
+          </li>
+        ))
+      }
+    </ul>
+  </article>
+
+  <article class="hud-panel strengths" aria-labelledby="about-strengths-title">
+    <h2 class="panel-title" id="about-strengths-title">Сильные стороны</h2>
+    <ul class="strength-grid">
+      {strengths.map((strength) => <li class="strength-item">{strength}</li>)}
+    </ul>
+  </article>
+</section>
+
+<style>
+  .left-stack {
+    position: absolute;
+    inset-block-start: 146px;
+    inset-inline-start: 36px;
+    z-index: var(--z-content);
+    display: grid;
+    width: 808px;
+    gap: 21px;
+  }
+
+  .hud-panel {
+    position: relative;
+    overflow: hidden;
+    padding: 38px 36px 34px;
+    border: var(--border-width-hairline) solid rgba(175, 224, 245, 0.2);
+    clip-path: polygon(
+      16px 0,
+      100% 0,
+      100% calc(100% - 16px),
+      calc(100% - 16px) 100%,
+      0 100%,
+      0 16px
+    );
+    background:
+      linear-gradient(180deg, rgba(9, 23, 31, 0.78), rgba(1, 5, 10, 0.58)),
+      rgba(2, 8, 14, 0.28);
+    box-shadow: var(--shadow-panel);
+  }
+
+  .hud-panel::before {
+    position: absolute;
+    inset: 11px;
+    pointer-events: none;
+    border: var(--border-width-hairline) solid rgba(183, 232, 255, 0.09);
+    clip-path: polygon(
+      12px 0,
+      100% 0,
+      100% calc(100% - 12px),
+      calc(100% - 12px) 100%,
+      0 100%,
+      0 12px
+    );
+    content: "";
+  }
+
+  .hud-panel::after {
+    position: absolute;
+    inset-block-start: 0;
+    inset-inline: 74px;
+    height: var(--border-width-hairline);
+    background: linear-gradient(
+      90deg,
+      transparent,
+      rgba(206, 241, 255, 0.52),
+      transparent
+    );
+    box-shadow: 0 0 14px rgba(146, 222, 255, 0.28);
+    content: "";
+  }
+
+  .panel-title {
+    position: absolute;
+    inset-block-start: 20px;
+    inset-inline-start: 30px;
+    color: rgba(244, 248, 255, 0.58);
+    font-family: var(--font-heading);
+    font-size: 18px;
+    font-weight: var(--font-weight-medium);
+    letter-spacing: var(--letter-wide);
+    line-height: var(--line-none);
+    text-transform: uppercase;
+    text-shadow: 0 0 10px rgba(163, 225, 255, 0.12);
+  }
+
+  .approach {
+    min-height: 292px;
+    padding-block-start: 82px;
+    padding-block-end: 24px;
+  }
+
+  .approach-grid {
+    position: relative;
+    display: grid;
+    grid-template-columns: repeat(5, minmax(0, 1fr));
+    gap: 18px;
+  }
+
+  .step-card {
+    position: relative;
+    min-width: 0;
+    max-width: none;
+    text-align: center;
+  }
+
+  .step-card:not(:last-child)::after {
+    position: absolute;
+    inset-block-start: 27px;
+    inset-inline-start: 50%;
+    z-index: 0;
+    width: calc(100% + 18px);
+    height: var(--border-width-hairline);
+    pointer-events: none;
+    background: repeating-linear-gradient(
+      90deg,
+      rgba(188, 232, 250, 0.36) 0 3px,
+      transparent 3px 12px
+    );
+    opacity: 0.55;
+    content: "";
+  }
+
+  .step-icon,
+  .principle-icon {
+    position: relative;
+    z-index: 1;
+    display: grid;
+    place-items: center;
+    width: 54px;
+    height: 54px;
+    margin: 0 auto 22px;
+    border: var(--border-width-hairline) solid rgba(192, 235, 255, 0.52);
+    clip-path: polygon(50% 0, 100% 25%, 100% 74%, 50% 100%, 0 74%, 0 25%);
+    color: rgba(238, 250, 255, 0.92);
+    font-family: var(--font-heading);
+    font-size: 22px;
+    line-height: var(--line-none);
+    box-shadow:
+      inset 0 0 17px rgba(132, 214, 255, 0.12),
+      0 0 16px rgba(98, 193, 244, 0.14);
+  }
+
+  .step-card h3,
+  .principle-card h3 {
+    margin-block-end: 12px;
+    color: var(--cold-white);
+    font-family: var(--font-heading);
+    font-size: 15px;
+    font-weight: var(--font-weight-semibold);
+    line-height: var(--line-none);
+    text-transform: uppercase;
+  }
+
+  .step-card p,
+  .principle-card p {
+    color: rgba(216, 225, 231, 0.78);
+    font-size: 13px;
+    font-weight: 300;
+    line-height: var(--line-copy);
+  }
+
+  .principles {
+    min-height: 276px;
+    padding: 50px 25px 18px;
+  }
+
+  .principles-grid {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 12px;
+  }
+
+  .principle-card {
+    min-width: 0;
+    max-width: none;
+    min-height: 172px;
+    padding: 21px 15px 17px;
+    border: var(--border-width-hairline) solid rgba(177, 226, 249, 0.24);
+    background: linear-gradient(
+      180deg,
+      rgba(12, 29, 39, 0.76),
+      rgba(3, 9, 15, 0.34)
+    );
+    text-align: center;
+    transition: var(--transition-panel);
+  }
+
+  .principle-card:hover,
+  .principle-card:focus-within {
+    border-color: rgba(210, 244, 255, 0.42);
+    box-shadow: 0 0 24px rgba(108, 205, 255, 0.12);
+    transform: translateY(-3px);
+  }
+
+  .principle-icon {
+    margin-block-end: 16px;
+    clip-path: polygon(
+      14px 0,
+      100% 0,
+      100% calc(100% - 14px),
+      calc(100% - 14px) 100%,
+      0 100%,
+      0 14px
+    );
+  }
+
+  .strengths {
+    min-height: 224px;
+    padding-block-start: 48px;
+    padding-block-end: 18px;
+  }
+
+  .strength-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 0 34px;
+  }
+
+  .strength-item {
+    position: relative;
+    display: flex;
+    min-width: 0;
+    max-width: none;
+    min-height: 38px;
+    align-items: center;
+    padding-inline-start: 26px;
+    border-bottom: var(--border-width-hairline) solid rgba(165, 215, 237, 0.12);
+    color: rgba(232, 239, 244, 0.86);
+    font-size: 16px;
+    font-weight: 300;
+    line-height: 1.25;
+  }
+
+  .strength-item::before {
+    position: absolute;
+    inset-block-start: 9px;
+    inset-inline-start: 0;
+    color: rgba(222, 248, 255, 0.9);
+    font-family: var(--font-heading);
+    font-size: 19px;
+    line-height: var(--line-none);
+    text-shadow: 0 0 10px rgba(166, 229, 255, 0.34);
+    content: "›";
+  }
+
+  @media (width < 1280px) {
+    .left-stack {
+      position: relative;
+      inset: auto;
+      width: 100%;
+      gap: 18px;
+    }
+
+    .hud-panel {
+      padding-inline: clamp(18px, 5vw, 30px);
+    }
+
+    .approach {
+      min-height: 0;
+    }
+
+    .approach-grid {
+      grid-template-columns: repeat(5, minmax(102px, 1fr));
+      overflow-x: auto;
+      padding-block-end: 8px;
+      scrollbar-width: thin;
+    }
+
+    .principles-grid {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+  }
+
+  @media (width < 620px) {
+    .hud-panel {
+      clip-path: polygon(
+        12px 0,
+        100% 0,
+        100% calc(100% - 12px),
+        calc(100% - 12px) 100%,
+        0 100%,
+        0 12px
+      );
+    }
+
+    .approach-grid,
+    .principles-grid,
+    .strength-grid {
+      grid-template-columns: 1fr;
+    }
+
+    .approach-grid {
+      overflow-x: visible;
+    }
+
+    .step-card {
+      display: grid;
+      grid-template-columns: 54px minmax(0, 1fr);
+      gap: 14px;
+      text-align: left;
+    }
+
+    .step-card:not(:last-child)::after {
+      inset-block-start: 64px;
+      inset-inline-start: 26px;
+      width: 1px;
+      height: calc(100% - 24px);
+      background: repeating-linear-gradient(
+        180deg,
+        rgba(188, 232, 250, 0.36) 0 3px,
+        transparent 3px 12px
+      );
+    }
+
+    .step-icon {
+      margin: 0;
+    }
+
+    .step-card h3 {
+      margin-block-start: 4px;
+    }
+
+    .principle-card {
+      min-height: 0;
+      text-align: left;
+    }
+
+    .principle-icon {
+      margin-inline: 0;
+    }
+
+    .strength-item {
+      min-height: 42px;
+      font-size: 15px;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .principle-card:hover,
+    .principle-card:focus-within {
+      transform: none;
+    }
+  }
+</style>

@@ -1,0 +1,1025 @@
+---
+import HudDecor from "@/components/hud/HudDecor.astro";
+import RightRuler from "@/components/hud/RightRuler.astro";
+import ProcessDiagram from "./ProcessDiagram.astro";
+import ProcessHero from "./ProcessHero.astro";
+import ProcessSteps from "./ProcessSteps.astro";
+import ProcessSummary from "./ProcessSummary.astro";
+---
+
+<div class="process-page" data-layer="Process / content">
+  <ProcessHero />
+  <ProcessSteps />
+  <ProcessDiagram />
+  <ProcessSummary />
+  <RightRuler current="04" total="05" label="Индикатор 04–05" />
+  <HudDecor />
+</div>
+
+<style>
+  :global(.process-frame) {
+    min-height: var(--frame-height);
+    background:
+      linear-gradient(
+        90deg,
+        rgba(0, 2, 7, 0.78),
+        rgba(0, 4, 10, 0.96) 52%,
+        rgba(0, 2, 7, 0.99)
+      ),
+      radial-gradient(circle at 22% 40%, rgba(80, 156, 190, 0.14), transparent 34%),
+      radial-gradient(circle at 58% 42%, rgba(126, 210, 255, 0.08), transparent 30%),
+      var(--bg);
+    user-select: none;
+  }
+
+  :global(.process-frame::before) {
+    background:
+      radial-gradient(circle at 18% 44%, rgba(143, 220, 255, 0.1), transparent 30%),
+      linear-gradient(90deg, rgba(146, 220, 255, 0.05), transparent 42%),
+      linear-gradient(180deg, rgba(255, 255, 255, 0.02), transparent 28%);
+    opacity: 0.82;
+  }
+
+  :global(.process-frame::after) {
+    background:
+      radial-gradient(circle at 50% 46%, transparent 0 35%, rgba(0, 0, 0, 0.58) 74%),
+      linear-gradient(
+        180deg,
+        rgba(0, 0, 0, 0.5) 0%,
+        transparent 17%,
+        transparent 76%,
+        rgba(0, 0, 0, 0.74) 100%
+      );
+  }
+
+  :global(.process-page) {
+    position: relative;
+    z-index: var(--z-content);
+    width: 100%;
+    min-height: var(--frame-height);
+    overflow: hidden;
+  }
+
+  :global(.process-hero) {
+    position: absolute;
+    top: 154px;
+    left: 72px;
+    z-index: 20;
+    width: 760px;
+  }
+
+  :global(.process-title) {
+    margin: 0 0 20px;
+    color: var(--cold-white);
+    font-family: var(--font-heading);
+    font-size: 74px;
+    font-weight: 800;
+    line-height: var(--line-none);
+    letter-spacing: var(--letter-ui);
+    text-transform: uppercase;
+    text-shadow: var(--text-shadow-title);
+  }
+
+  :global(.process-title-word) {
+    position: relative;
+    display: inline-block;
+    isolation: isolate;
+  }
+
+  :global(.process-subtitle) {
+    width: 620px;
+    max-width: 100%;
+    color: #b7c0c9;
+    font-size: 24px;
+    font-weight: 300;
+    line-height: var(--line-copy);
+    text-shadow: 0 0 14px rgba(165, 215, 240, 0.12);
+  }
+
+  :global(.process-steps) {
+    position: absolute;
+    top: 360px;
+    left: 72px;
+    z-index: 20;
+    width: 680px;
+  }
+
+  :global(.step) {
+    position: relative;
+    display: grid;
+    grid-template-columns: 92px 92px minmax(0, 1fr);
+    gap: 22px;
+    align-items: start;
+    margin-bottom: 26px;
+  }
+
+  :global(.step-marker) {
+    position: relative;
+  }
+
+  :global(.step-num) {
+    position: relative;
+    display: grid;
+    width: 92px;
+    height: 92px;
+    place-items: center;
+    border: 1px solid rgba(188, 231, 249, 0.34);
+    background: rgba(2, 8, 14, 0.42);
+    box-shadow:
+      inset 0 0 24px rgba(111, 194, 239, 0.06),
+      0 0 20px rgba(91, 183, 231, 0.06);
+    clip-path: polygon(14px 0, 100% 0, 100% calc(100% - 14px), calc(100% - 14px) 100%, 0 100%, 0 14px);
+    color: var(--cold-white);
+    font-family: var(--font-heading);
+    font-size: 38px;
+    font-weight: var(--font-weight-bold);
+    line-height: var(--line-none);
+    text-shadow: 0 0 12px rgba(181, 232, 255, 0.3);
+  }
+
+  :global(.step-line) {
+    position: absolute;
+    top: 96px;
+    left: 46px;
+    width: 1px;
+    height: 38px;
+    background: linear-gradient(180deg, rgba(188, 232, 250, 0.55), transparent);
+  }
+
+  :global(.step:last-child .step-line) {
+    display: none;
+  }
+
+  :global(.step-icon) {
+    display: grid;
+    width: 92px;
+    height: 92px;
+    place-items: center;
+    border: 1px solid rgba(192, 235, 255, 0.52);
+    background: rgba(2, 8, 14, 0.36);
+    box-shadow:
+      inset 0 0 17px rgba(132, 214, 255, 0.12),
+      0 0 16px rgba(98, 193, 244, 0.14);
+    clip-path: polygon(50% 0, 100% 25%, 100% 74%, 50% 100%, 0 74%, 0 25%);
+    color: rgba(238, 250, 255, 0.92);
+  }
+
+  :global(.step-icon svg) {
+    width: 36px;
+    height: 36px;
+    fill: none;
+    stroke: currentColor;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    stroke-width: 1.6;
+  }
+
+  :global(.step-body h3) {
+    margin: 0 0 8px;
+    color: var(--cold-white);
+    font-family: var(--font-heading);
+    font-size: 22px;
+    font-weight: var(--font-weight-semibold);
+    line-height: var(--line-none);
+    letter-spacing: var(--letter-ui);
+    text-transform: uppercase;
+    text-shadow: 0 0 10px rgba(189, 232, 255, 0.18);
+  }
+
+  :global(.step-body p) {
+    color: rgba(216, 225, 231, 0.78);
+    font-size: 17px;
+    font-weight: 300;
+    line-height: var(--line-copy);
+  }
+
+  :global(.process-diagram) {
+    position: absolute;
+    top: 154px;
+    left: 920px;
+    z-index: 20;
+    width: 880px;
+    height: 720px;
+  }
+
+  :global(.diagram-lines) {
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+    overflow: visible;
+    pointer-events: none;
+  }
+
+  :global(.diagram-lines path) {
+    fill: none;
+    stroke: rgba(188, 232, 250, 0.35);
+    stroke-width: 1;
+  }
+
+  :global(.diagram-lines .dash) {
+    stroke-dasharray: 4 6;
+  }
+
+  :global(.flowchart) {
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 2;
+    display: flex;
+    width: 880px;
+    height: 90px;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+  }
+
+  :global(.flow-step) {
+    display: flex;
+    flex: 1 1 0;
+    min-width: 0;
+    align-items: center;
+  }
+
+  :global(.flow-box),
+  :global(.branch-box),
+  :global(.tech-chip) {
+    border: 1px solid rgba(188, 231, 249, 0.28);
+    background: rgba(2, 8, 14, 0.55);
+    color: var(--cold-white);
+    font-family: var(--font-heading);
+    font-weight: var(--font-weight-medium);
+    letter-spacing: var(--letter-ui);
+    text-transform: uppercase;
+  }
+
+  :global(.flow-box) {
+    display: grid;
+    width: 100%;
+    min-height: 62px;
+    place-items: center;
+    padding: 10px 12px;
+    box-shadow:
+      inset 0 0 20px rgba(111, 194, 239, 0.06),
+      0 0 18px rgba(91, 183, 231, 0.08);
+    clip-path: polygon(10px 0, 100% 0, 100% calc(100% - 10px), calc(100% - 10px) 100%, 0 100%, 0 10px);
+    font-size: 12px;
+    line-height: 1.2;
+    text-align: center;
+  }
+
+  :global(.flow-arrow) {
+    position: relative;
+    flex: 0 0 18px;
+    height: 1px;
+    background: linear-gradient(90deg, rgba(188, 232, 250, 0.35), rgba(188, 232, 250, 0.85));
+  }
+
+  :global(.flow-arrow::after) {
+    position: absolute;
+    top: -3px;
+    right: 0;
+    width: 0;
+    height: 0;
+    border-top: 3.5px solid transparent;
+    border-bottom: 3.5px solid transparent;
+    border-left: 6px solid rgba(188, 232, 250, 0.85);
+    content: "";
+  }
+
+  :global(.branch-row) {
+    position: absolute;
+    top: 118px;
+    right: 0;
+    left: 0;
+    z-index: 2;
+    display: flex;
+    justify-content: space-between;
+    padding: 0 72px;
+  }
+
+  :global(.branch-box) {
+    display: grid;
+    width: 150px;
+    min-height: 54px;
+    place-items: center;
+    padding: 10px 14px;
+    border-color: rgba(188, 231, 249, 0.24);
+    background: rgba(2, 8, 14, 0.5);
+    box-shadow:
+      inset 0 0 18px rgba(111, 194, 239, 0.05),
+      0 0 16px rgba(91, 183, 231, 0.06);
+    clip-path: polygon(8px 0, 100% 0, 100% calc(100% - 8px), calc(100% - 8px) 100%, 0 100%, 0 8px);
+    color: rgba(244, 248, 255, 0.92);
+    font-size: 12px;
+    line-height: 1.15;
+    text-align: center;
+  }
+
+  :global(.device-zone) {
+    position: absolute;
+    top: 206px;
+    right: 0;
+    left: 0;
+    z-index: 2;
+    display: flex;
+    height: 250px;
+    align-items: flex-end;
+    justify-content: space-around;
+    gap: 24px;
+  }
+
+  :global(.device) {
+    position: relative;
+    overflow: hidden;
+    border: 1px solid rgba(188, 231, 249, 0.28);
+    background: rgba(2, 8, 14, 0.5);
+    box-shadow:
+      inset 0 0 28px rgba(91, 183, 231, 0.08),
+      0 0 26px rgba(91, 183, 231, 0.1);
+  }
+
+  :global(.device-phone) {
+    width: 136px;
+    height: 236px;
+    border-radius: 18px;
+  }
+
+  :global(.device-dash) {
+    width: 360px;
+    height: 246px;
+    clip-path: polygon(16px 0, 100% 0, 100% calc(100% - 16px), calc(100% - 16px) 100%, 0 100%, 0 16px);
+  }
+
+  :global(.device-code) {
+    width: 250px;
+    height: 246px;
+    clip-path: polygon(16px 0, 100% 0, 100% calc(100% - 16px), calc(100% - 16px) 100%, 0 100%, 0 16px);
+  }
+
+  :global(.device::before) {
+    position: absolute;
+    top: 0;
+    right: 0;
+    left: 0;
+    z-index: 2;
+    height: 26px;
+    border-bottom: 1px solid rgba(188, 231, 249, 0.1);
+    background: rgba(4, 11, 17, 0.86);
+    content: "";
+  }
+
+  :global(.device-dots) {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    z-index: 3;
+    display: flex;
+    gap: 6px;
+  }
+
+  :global(.device-dots i) {
+    width: 5px;
+    height: 5px;
+    border-radius: var(--radius-round);
+    background: rgba(191, 236, 255, 0.52);
+    box-shadow: 0 0 6px rgba(144, 221, 255, 0.32);
+  }
+
+  :global(.device-screen) {
+    position: absolute;
+    inset: 27px 0 0;
+    padding: 14px;
+  }
+
+  :global(.phone-list) {
+    display: grid;
+    gap: 8px;
+    margin-bottom: 14px;
+  }
+
+  :global(.phone-row),
+  :global(.dash-sidebar i),
+  :global(.dash-bar),
+  :global(.code-line) {
+    border-radius: 2px;
+    background: rgba(188, 231, 249, 0.14);
+  }
+
+  :global(.phone-row) {
+    height: 8px;
+  }
+
+  :global(.phone-row.short) {
+    width: 70%;
+  }
+
+  :global(.phone-chart) {
+    position: absolute;
+    right: 10px;
+    bottom: 14px;
+    left: 10px;
+    height: 70px;
+  }
+
+  :global(.dash-layout) {
+    display: grid;
+    grid-template-columns: 72px minmax(0, 1fr);
+    gap: 14px;
+    height: 100%;
+  }
+
+  :global(.dash-sidebar),
+  :global(.dash-main),
+  :global(.code-lines) {
+    display: grid;
+    align-content: start;
+  }
+
+  :global(.dash-sidebar),
+  :global(.code-lines) {
+    gap: 8px;
+  }
+
+  :global(.dash-sidebar i) {
+    height: 8px;
+  }
+
+  :global(.dash-main) {
+    gap: 10px;
+  }
+
+  :global(.dash-bar) {
+    height: 10px;
+    border-radius: 1px;
+  }
+
+  :global(.dash-bar.short) {
+    width: 55%;
+  }
+
+  :global(.dash-chart) {
+    height: 90px;
+    margin-top: 4px;
+    border-bottom: 1px solid rgba(188, 231, 249, 0.2);
+    border-left: 1px solid rgba(188, 231, 249, 0.2);
+  }
+
+  :global(.code-line) {
+    height: 7px;
+    border-radius: 1px;
+  }
+
+  :global(.code-line.w-80) {
+    width: 80%;
+  }
+
+  :global(.code-line.w-60) {
+    width: 60%;
+  }
+
+  :global(.code-line.w-40) {
+    width: 40%;
+  }
+
+  :global(.code-line.accent) {
+    background: rgba(126, 210, 255, 0.35);
+  }
+
+  :global(.tech-zone) {
+    position: absolute;
+    top: 484px;
+    left: 0;
+    z-index: 2;
+    display: grid;
+    width: 860px;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 12px;
+  }
+
+  :global(.tech-chip) {
+    display: flex;
+    min-width: 0;
+    height: 48px;
+    align-items: center;
+    gap: 10px;
+    padding: 0 16px;
+    border-color: rgba(188, 231, 249, 0.2);
+    background: rgba(3, 10, 17, 0.58);
+    box-shadow:
+      inset 0 0 16px rgba(111, 194, 239, 0.04),
+      0 0 14px rgba(91, 183, 231, 0.06);
+    clip-path: polygon(10px 0, 100% 0, 100% calc(100% - 10px), calc(100% - 10px) 100%, 0 100%, 0 10px);
+    color: rgba(245, 250, 255, 0.92);
+    font-size: 12px;
+    line-height: var(--line-none);
+  }
+
+  :global(.tech-chip svg) {
+    flex: 0 0 auto;
+    width: 18px;
+    height: 18px;
+    fill: none;
+    stroke: currentColor;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    stroke-width: 1.5;
+  }
+
+  :global(.tech-chip span) {
+    min-width: 0;
+  }
+
+  :global(.bottom-zone) {
+    position: absolute;
+    bottom: 54px;
+    left: 0;
+    z-index: 20;
+    display: flex;
+    width: 1760px;
+    align-items: flex-end;
+    justify-content: flex-end;
+  }
+
+  :global(.summary-panel),
+  :global(.quality-list) {
+    border: 1px solid rgba(188, 231, 249, 0.24);
+    background:
+      linear-gradient(180deg, rgba(9, 23, 31, 0.72), rgba(1, 5, 10, 0.52)),
+      rgba(2, 8, 14, 0.32);
+    box-shadow:
+      inset 0 0 34px rgba(111, 194, 239, 0.05),
+      0 0 32px rgba(91, 183, 231, 0.05);
+    clip-path: polygon(16px 0, 100% 0, 100% calc(100% - 16px), calc(100% - 16px) 100%, 0 100%, 0 16px);
+  }
+
+  :global(.summary-panel) {
+    display: flex;
+    width: 820px;
+    min-height: 130px;
+    align-items: flex-start;
+    gap: 24px;
+    padding: 26px 28px;
+  }
+
+  :global(.summary-icon) {
+    display: grid;
+    flex: 0 0 auto;
+    width: 56px;
+    height: 56px;
+    place-items: center;
+    border: 1px solid rgba(188, 231, 249, 0.32);
+    background: rgba(2, 8, 14, 0.42);
+    box-shadow:
+      inset 0 0 18px rgba(132, 214, 255, 0.1),
+      0 0 16px rgba(98, 193, 244, 0.1);
+    clip-path: polygon(50% 0, 100% 25%, 100% 74%, 50% 100%, 0 74%, 0 25%);
+    color: rgba(238, 250, 255, 0.95);
+  }
+
+  :global(.summary-icon svg) {
+    width: 26px;
+    height: 26px;
+    fill: none;
+    stroke: currentColor;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    stroke-width: 1.6;
+  }
+
+  :global(.summary-text) {
+    color: #d8dde3;
+    font-size: 18px;
+    font-weight: 300;
+    line-height: 1.5;
+    text-shadow: 0 0 12px rgba(165, 215, 240, 0.1);
+  }
+
+  :global(.quality-list) {
+    display: none;
+    min-height: 130px;
+    align-items: center;
+    gap: 0;
+    padding: 0 28px;
+    color: var(--cold-white);
+    font-family: var(--font-heading);
+  }
+
+  :global(.quality-list li) {
+    position: relative;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 0 32px;
+    font-size: 18px;
+    font-weight: var(--font-weight-medium);
+    letter-spacing: var(--letter-label);
+    line-height: var(--line-none);
+    text-transform: uppercase;
+    text-shadow: var(--text-shadow-nav);
+  }
+
+  :global(.quality-list li::before) {
+    color: rgba(183, 232, 255, 0.72);
+    font-weight: var(--font-weight-semibold);
+    text-shadow: 0 0 10px rgba(132, 214, 255, 0.48);
+    content: "//";
+  }
+
+  :global(.quality-list li:not(:last-child)::after) {
+    position: absolute;
+    top: 50%;
+    right: 0;
+    width: 1px;
+    height: 34px;
+    background: linear-gradient(180deg, transparent, rgba(188, 231, 249, 0.42), transparent);
+    transform: translateY(-50%);
+    content: "";
+  }
+
+  :global(.process-page .right-ruler) {
+    top: 190px;
+  }
+
+  :global(.process-page .hud-decor) {
+    z-index: 12;
+  }
+
+  :global(.process-page .hud-decor .left-a) {
+    top: 334px;
+    width: 420px;
+  }
+
+  :global(.process-page .hud-decor .left-b) {
+    top: 352px;
+    width: 380px;
+  }
+
+  :global(.process-page .hud-decor .mid-a) {
+    top: 122px;
+    left: 630px;
+    width: 220px;
+    opacity: 0.24;
+    transform: rotate(-44deg);
+  }
+
+  :global(.process-page .hud-decor .mid-b) {
+    top: 330px;
+    left: 740px;
+    width: 130px;
+    opacity: 0.22;
+  }
+
+  :global(.process-page .hud-decor .c1) {
+    top: 82px;
+    left: 620px;
+    width: 180px;
+    height: 170px;
+  }
+
+  :global(.process-page .hud-decor .c2) {
+    top: 320px;
+    left: 690px;
+    width: 170px;
+    height: 240px;
+    opacity: 0.5;
+  }
+
+  :global(.process-page .hud-decor .tiny-code.left) {
+    display: none;
+  }
+
+  :global(.process-page .hud-decor .tiny-code.center) {
+    top: 214px;
+    left: 816px;
+  }
+
+  @media (width >= 1280px) {
+    :global(.process-frame) {
+      height: var(--frame-height);
+      min-height: 0;
+    }
+
+    :global(.process-page) {
+      min-height: var(--frame-height);
+    }
+  }
+
+  @media (width < 1280px) {
+    :global(.process-frame) {
+      min-height: 100vh;
+      min-height: 100dvh;
+      user-select: auto;
+    }
+
+    :global(.process-page) {
+      display: flex;
+      min-height: 0;
+      flex-direction: column;
+      gap: 42px;
+      padding: 42px var(--gutter-responsive-inline) 64px;
+      overflow: hidden;
+    }
+
+    :global(.process-hero),
+    :global(.process-steps),
+    :global(.process-diagram),
+    :global(.bottom-zone) {
+      position: relative;
+      top: auto;
+      right: auto;
+      bottom: auto;
+      left: auto;
+      width: 100%;
+      height: auto;
+    }
+
+    :global(.process-title) {
+      font-size: clamp(52px, 9vw, 84px);
+    }
+
+    :global(.process-subtitle) {
+      width: min(100%, 620px);
+      font-size: clamp(18px, 2.5vw, 24px);
+    }
+
+    :global(.process-steps) {
+      max-width: 860px;
+    }
+
+    :global(.step) {
+      grid-template-columns: 76px 76px minmax(0, 1fr);
+      gap: 16px;
+    }
+
+    :global(.step-num),
+    :global(.step-icon) {
+      width: 76px;
+      height: 76px;
+    }
+
+    :global(.step-num) {
+      font-size: 30px;
+    }
+
+    :global(.step-icon svg) {
+      width: 30px;
+      height: 30px;
+    }
+
+    :global(.step-line) {
+      top: 80px;
+      left: 38px;
+      height: 34px;
+    }
+
+    :global(.process-diagram) {
+      max-width: 980px;
+      min-height: 642px;
+    }
+
+    :global(.diagram-lines) {
+      display: none;
+    }
+
+    :global(.flowchart),
+    :global(.branch-row),
+    :global(.device-zone),
+    :global(.tech-zone) {
+      position: relative;
+      top: auto;
+      right: auto;
+      left: auto;
+      width: 100%;
+    }
+
+    :global(.flowchart) {
+      display: grid;
+      height: auto;
+      grid-template-columns: repeat(5, minmax(0, 1fr));
+      gap: 10px;
+    }
+
+    :global(.flow-arrow) {
+      display: none;
+    }
+
+    :global(.flow-box) {
+      min-height: 58px;
+    }
+
+    :global(.branch-row) {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 14px;
+      margin-top: 28px;
+      padding: 0;
+    }
+
+    :global(.branch-box) {
+      width: auto;
+    }
+
+    :global(.device-zone) {
+      display: grid;
+      height: auto;
+      grid-template-columns: minmax(108px, 0.45fr) minmax(220px, 1.2fr) minmax(180px, 0.9fr);
+      align-items: end;
+      margin-top: 28px;
+    }
+
+    :global(.device-phone) {
+      width: 100%;
+      max-width: 136px;
+      height: 236px;
+      justify-self: center;
+    }
+
+    :global(.device-dash),
+    :global(.device-code) {
+      width: 100%;
+      height: 246px;
+    }
+
+    :global(.tech-zone) {
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      margin-top: 28px;
+    }
+
+    :global(.tech-chip) {
+      padding: 0 12px;
+      font-size: 11px;
+    }
+
+    :global(.bottom-zone) {
+      justify-content: stretch;
+    }
+
+    :global(.summary-panel) {
+      width: 100%;
+    }
+  }
+
+  @media (width < 820px) {
+    :global(.process-page) {
+      gap: 34px;
+      padding: 34px max(18px, env(safe-area-inset-left)) 52px;
+    }
+
+    :global(.process-title) {
+      font-size: clamp(42px, 12vw, 58px);
+    }
+
+    :global(.process-subtitle) {
+      font-size: 18px;
+    }
+
+    :global(.step) {
+      grid-template-columns: 60px minmax(0, 1fr);
+      gap: 14px;
+      margin-bottom: 24px;
+    }
+
+    :global(.step-marker) {
+      grid-row: span 2;
+    }
+
+    :global(.step-icon) {
+      display: none;
+    }
+
+    :global(.step-num) {
+      width: 60px;
+      height: 60px;
+      font-size: 24px;
+    }
+
+    :global(.step-line) {
+      top: 64px;
+      left: 30px;
+      height: 30px;
+    }
+
+    :global(.step-body h3) {
+      font-size: 17px;
+      line-height: 1.14;
+    }
+
+    :global(.step-body p) {
+      font-size: 15px;
+    }
+
+    :global(.process-diagram) {
+      min-height: 0;
+    }
+
+    :global(.flowchart),
+    :global(.branch-row),
+    :global(.device-zone),
+    :global(.tech-zone) {
+      grid-template-columns: 1fr;
+    }
+
+    :global(.flow-box),
+    :global(.branch-box),
+    :global(.tech-chip) {
+      min-height: 46px;
+      font-size: 11px;
+    }
+
+    :global(.device-zone) {
+      gap: 18px;
+    }
+
+    :global(.device-phone) {
+      width: 112px;
+      height: 192px;
+    }
+
+    :global(.device-dash) {
+      height: 204px;
+    }
+
+    :global(.device-code) {
+      height: 178px;
+    }
+
+    :global(.tech-zone) {
+      gap: 8px;
+    }
+
+    :global(.tech-chip) {
+      height: 42px;
+    }
+
+    :global(.summary-panel) {
+      flex-direction: column;
+      gap: 16px;
+      min-height: 0;
+      padding: 20px;
+    }
+
+    :global(.summary-text) {
+      font-size: 16px;
+    }
+
+    :global(.quality-list) {
+      display: flex;
+      min-height: 0;
+      flex-wrap: wrap;
+      gap: 18px;
+      padding: 18px 20px;
+    }
+
+    :global(.quality-list li) {
+      gap: 8px;
+      padding: 0;
+      font-size: 13px;
+    }
+
+    :global(.quality-list li:not(:last-child)::after) {
+      display: none;
+    }
+  }
+
+  @media (width < 430px) {
+    :global(.process-page) {
+      padding-inline: 16px;
+    }
+
+    :global(.process-title) {
+      font-size: clamp(38px, 11vw, 46px);
+    }
+
+    :global(.process-subtitle),
+    :global(.summary-text) {
+      overflow-wrap: normal;
+      word-break: normal;
+    }
+
+    :global(.step) {
+      grid-template-columns: 54px minmax(0, 1fr);
+      gap: 12px;
+    }
+
+    :global(.step-num) {
+      width: 54px;
+      height: 54px;
+      font-size: 22px;
+    }
+
+    :global(.step-line) {
+      top: 58px;
+      left: 27px;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    :global(.flow-box),
+    :global(.branch-box),
+    :global(.tech-chip),
+    :global(.device) {
+      transition: none;
+    }
+  }
+</style>
+

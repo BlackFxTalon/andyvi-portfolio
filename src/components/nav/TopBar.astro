@@ -1,0 +1,335 @@
+---
+import { navItems, normalizePath, type PageId } from "./navItems";
+
+interface Props {
+  currentPage: PageId;
+  currentPath: string;
+}
+
+const { currentPage, currentPath } = Astro.props;
+const normalizedPath = normalizePath(currentPath);
+const desktopNavItems = navItems.filter((item) => item.id !== "home");
+const isActive = (id: PageId, href: string) =>
+  id === currentPage || normalizePath(href) === normalizedPath;
+---
+
+<header class="topbar" id="siteHeader">
+  <a
+    class="logo"
+    href="/"
+    aria-label="AndyVi, на главную"
+    aria-current={isActive("home", "/") ? "page" : undefined}
+    data-astro-prefetch="hover"
+  >
+    <span class="logo-word">AndyVi</span>
+  </a>
+
+  <button
+    class="menu-button"
+    id="menuButton"
+    type="button"
+    aria-label="Открыть меню"
+    aria-expanded="false"
+    aria-controls="mobileNav"
+    data-mobile-nav-toggle
+  >
+    <i class="menu-button-orbit" aria-hidden="true"></i>
+    <span aria-hidden="true"></span>
+    <span aria-hidden="true"></span>
+    <span aria-hidden="true"></span>
+  </button>
+
+  <nav class="nav" aria-label="Главная навигация">
+    {
+      desktopNavItems.map((item) => (
+        <a
+          href={item.href}
+          aria-current={isActive(item.id, item.href) ? "page" : undefined}
+          data-nav-item={item.id}
+          data-astro-prefetch="hover"
+        >
+          {item.label.toUpperCase()}
+        </a>
+      ))
+    }
+  </nav>
+</header>
+
+<style>
+  .topbar {
+     display: flex;
+     align-items: center;
+     justify-content: space-between;
+  } 
+
+  .logo {
+    display: inline-flex;
+    position: relative;
+    align-items: center;
+    min-width: 80px;
+    min-height: 34px;
+    color: var(--color-text-strong);
+    font-family: var(--font-heading);
+    font-size: 22px;
+    font-weight: var(--font-weight-bold);
+    line-height: var(--line-none);
+    text-shadow: var(--text-shadow-logo);
+  }
+
+  .logo::after {
+    position: absolute;
+    inset-inline-start: 0;
+    inset-block-end: -13px;
+    width: 70px;
+    height: var(--border-width-hairline);
+    background: linear-gradient(
+      90deg,
+      rgba(241, 248, 255, 0.9),
+      rgba(143, 220, 255, 0.2),
+      transparent
+    );
+    box-shadow: var(--shadow-logo-line);
+    content: "";
+  }
+
+  .nav {
+    display: flex;
+    align-items: center;
+    gap: clamp(26px, 3.2vw, 58px);
+    font-family: var(--font-heading);
+    font-size: 13px;
+    font-weight: var(--font-weight-medium);
+    letter-spacing: var(--letter-label);
+    line-height: var(--line-none);
+    text-transform: uppercase;
+    position: relative;
+  }
+
+  .nav a {
+    position: relative;
+    color: rgba(244, 248, 255, 0.78);
+    text-shadow: var(--text-shadow-nav);
+    transition: var(--transition-hover);
+  }
+
+  .nav a::before,
+  .nav a::after {
+    position: absolute;
+    inset-inline-start: 0;
+    pointer-events: none;
+    opacity: 0;
+    transition:
+      opacity var(--dur-base) var(--ease-standard),
+      transform var(--dur-base) var(--ease-standard);
+    content: "";
+  }
+
+  .nav a::before {
+    inset-block-start: -14px;
+    width: 34px;
+    height: var(--border-width-hairline);
+    background: linear-gradient(
+      90deg,
+      rgba(186, 235, 255, 0),
+      rgba(186, 235, 255, 0.82)
+    );
+    box-shadow: var(--shadow-nav-active);
+    transform: translateX(-10px) scaleX(0.55);
+    transform-origin: left center;
+  }
+
+  .nav a::after {
+    inset-block-end: -14px;
+    width: 72px;
+    height: var(--border-width-hairline);
+    background: linear-gradient(
+      90deg,
+      rgba(241, 248, 255, 0.9),
+      rgba(143, 220, 255, 0.16),
+      transparent
+    );
+    transform: translateX(14px) scaleX(0);
+    transform-origin: left center;
+  }
+
+  .nav a:hover,
+  .nav a:focus-visible,
+  .nav a[aria-current="page"] {
+    color: #fff;
+    text-shadow: var(--text-shadow-strong);
+  }
+
+  .nav a:hover,
+  .nav a:focus-visible {
+    transform: translateY(-2px);
+  }
+
+  .nav a:hover::before,
+  .nav a:hover::after,
+  .nav a:focus-visible::before,
+  .nav a:focus-visible::after,
+  .nav a[aria-current="page"]::before,
+  .nav a[aria-current="page"]::after {
+    opacity: 1;
+    transform: translateX(0) scaleX(1);
+  }
+
+  .nav::before {
+    content: "";
+    position: absolute;
+    inset-block-start: 38px;
+    inset-inline-start: -200px;
+    width: 700px;
+    height: var(--border-width-hairline);
+    background: linear-gradient(90deg, transparent, rgba(198, 224, 241, 0.1) 10%, rgba(198, 224, 241, 0.22) 74%, transparent);
+  }
+
+  .nav::after {
+    position: absolute;
+    inset-block-start: 15px;
+    inset-inline-end: -138px;
+    width: 42px;
+    height: 24px;
+    border-right: var(--border-width-hairline) solid var(--color-line-strong);
+    border-bottom: var(--border-width-hairline) solid var(--color-line-soft);
+    transform: skewX(-38deg);
+    content: "";
+  }
+
+  .menu-button {
+    position: relative;
+    display: none;
+    width: 44px;
+    height: 44px;
+    overflow: hidden;
+    clip-path: polygon(
+      10px 0,
+      100% 0,
+      100% 34px,
+      34px 100%,
+      0 100%,
+      0 10px
+    );
+    cursor: pointer;
+    background: rgba(0, 6, 14, 0.28);
+    transition:
+      transform var(--dur-base) var(--ease-standard),
+      background var(--dur-base) var(--ease-standard),
+      box-shadow var(--dur-base) var(--ease-standard);
+  }
+
+  .menu-button-orbit {
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+    padding: 1px;
+    overflow: hidden;
+    clip-path: inherit;
+    pointer-events: none;
+    opacity: 1;
+    filter: var(--filter-orbit-glow);
+    transition:
+      filter var(--dur-medium) var(--ease-standard),
+      opacity var(--dur-medium) var(--ease-standard);
+    mask:
+      linear-gradient(#000 0 0) content-box,
+      linear-gradient(#000 0 0);
+    mask-composite: exclude;
+  }
+
+  .menu-button-orbit::before {
+    position: absolute;
+    inset-block-start: 50%;
+    inset-inline-start: 50%;
+    width: 170%;
+    height: 170%;
+    background: conic-gradient(
+      from 0deg,
+      transparent 0deg,
+      transparent 104deg,
+      rgba(109, 211, 255, 0.18) 130deg,
+      rgba(246, 253, 255, 0.98) 168deg,
+      rgba(73, 219, 255, 1) 184deg,
+      rgba(248, 253, 255, 0.9) 204deg,
+      transparent 252deg,
+      transparent 360deg
+    );
+    transform: translate(-50%, -50%) rotate(0deg);
+    transform-origin: center;
+    content: "";
+  }
+
+  .menu-button:hover,
+  .menu-button:focus-visible {
+    background: rgba(2, 16, 30, 0.54);
+    box-shadow: var(--shadow-control-active);
+    transform: translateY(-1px);
+  }
+
+  .menu-button span {
+    position: absolute;
+    inset-inline-start: 12px;
+    z-index: 2;
+    width: 20px;
+    height: var(--border-width-hairline);
+    background: rgba(244, 248, 255, 0.86);
+    box-shadow: 0 0 9px rgba(170, 230, 255, 0.35);
+    transition:
+      transform var(--dur-base) var(--ease-standard),
+      opacity var(--dur-base) var(--ease-standard);
+  }
+
+  .menu-button span:nth-of-type(1) {
+    inset-block-start: 15px;
+  }
+
+  .menu-button span:nth-of-type(2) {
+    inset-block-start: 22px;
+  }
+
+  .menu-button span:nth-of-type(3) {
+    inset-block-start: 29px;
+  }
+
+  .menu-button[aria-expanded="true"] span:nth-of-type(1) {
+    transform: translateY(7px) rotate(45deg);
+  }
+
+  .menu-button[aria-expanded="true"] span:nth-of-type(2) {
+    opacity: 0;
+  }
+
+  .menu-button[aria-expanded="true"] span:nth-of-type(3) {
+    transform: translateY(-7px) rotate(-45deg);
+  }
+
+  @media (width < 1280px) {
+    .topbar {
+      position: sticky;
+      z-index: 5;
+    }
+
+    .nav {
+      display: none;
+    }
+
+    .menu-button {
+      display: block;
+    }
+  }
+
+  @media (width < 820px) {
+    .logo {
+      font-size: 20px;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .nav a:hover,
+    .nav a:focus-visible,
+    .menu-button:hover,
+    .menu-button:focus-visible {
+      transform: none;
+    }
+  }
+</style>

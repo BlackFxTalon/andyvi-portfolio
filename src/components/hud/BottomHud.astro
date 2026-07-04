@@ -1,0 +1,69 @@
+<div class="bottom-hud" data-layer="Bottom HUD line" aria-hidden="true">
+  <svg viewBox="0 0 990 45" focusable="false" role="presentation">
+    <circle class="hud-dot" cx="8" cy="9" r="2.2"></circle>
+    <path
+      class="hud-primary"
+      d="M22 9 H204 L224 9 L244 25 H340 L356 9 H520 M584 9 H768 L790 25 H874 M918 9 H990"
+    ></path>
+    <path class="hud-soft" d="M390 9 H520 M690 9 H768 M950 9 H990"></path>
+    <path
+      class="hud-hatch"
+      d="M808 13 l7 -7 M816 13 l7 -7 M824 13 l7 -7 M832 13 l7 -7 M840 13 l7 -7 M848 13 l7 -7 M856 13 l7 -7 M864 13 l7 -7"
+    ></path>
+    <circle class="hud-dot" cx="760" cy="9" r="1.4"></circle>
+  </svg>
+</div>
+
+<style>
+  .bottom-hud {
+    position: relative;
+    z-index: var(--z-content);
+    height: 45px;
+    background: none;
+    opacity: 0.68;
+    filter: drop-shadow(0 0 5px rgba(135, 215, 255, 0.1));
+    pointer-events: none;
+    margin-block-start: 1rem;
+  }
+
+  svg {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    overflow: visible;
+    mix-blend-mode: screen;
+  }
+
+  .hud-primary {
+    fill: none;
+    stroke: rgba(226, 249, 255, 0.48);
+    stroke-width: 1.8;
+    vector-effect: non-scaling-stroke;
+  }
+
+  .hud-soft {
+    fill: none;
+    stroke: rgba(214, 243, 255, 0.22);
+    stroke-width: 1.2;
+    vector-effect: non-scaling-stroke;
+  }
+
+  .hud-dot {
+    fill: rgba(216, 247, 255, 0.58);
+    filter: drop-shadow(0 0 5px rgba(162, 226, 255, 0.28));
+  }
+
+  .hud-hatch {
+    stroke: rgba(226, 249, 255, 0.38);
+    stroke-width: 1.25;
+    vector-effect: non-scaling-stroke;
+  }
+
+  @media (width < 1280px) {
+    .bottom-hud {
+      display: none;
+    }
+  }
+</style>
+

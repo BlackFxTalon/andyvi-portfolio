@@ -1,0 +1,818 @@
+---
+import BackgroundMedia from "@/components/shared/BackgroundMedia.astro";
+import BottomHud from "@/components/hud/BottomHud.astro";
+import HudDecor from "@/components/hud/HudDecor.astro";
+import RightRuler from "@/components/hud/RightRuler.astro";
+
+type ContactField = "name" | "email" | "message";
+
+interface ActionErrorView {
+  code: string;
+  message: string;
+  retryAfterSeconds?: number;
+}
+
+interface Props {
+  action: string;
+  fields?: Partial<Record<ContactField, string[] | undefined>>;
+  isAccepted?: boolean;
+  actionError?: ActionErrorView | undefined;
+}
+
+const {
+  action,
+  fields = {},
+  isAccepted = false,
+  actionError,
+} = Astro.props;
+
+const hasFieldErrors = Object.values(fields).some((messages) => messages?.length);
+const hasError = Boolean(actionError || hasFieldErrors);
+const statusKind = isAccepted ? "success" : hasError ? "error" : "idle";
+const statusMessage = isAccepted
+  ? "Сообщение отправлено. Спасибо, я отвечу в ближайшее рабочее время."
+  : actionError?.message ??
+    (hasFieldErrors
+      ? "Проверьте выделенные поля и отправьте сообщение еще раз."
+      : "");
+
+function fieldError(field: ContactField): string | undefined {
+  return fields[field]?.[0];
+}
+---
+
+<div class="contacts-route">
+  <div
+    id="frame"
+    class="frame contacts-frame"
+    aria-label="05 — Контакты"
+    data-layer="00_FRAME / contacts"
+    data-frame-width="1920"
+    data-frame-height="1080"
+  >
+    <BackgroundMedia variant="soft-shadow" includeReferenceLock={false} />
+    <HudDecor />
+
+    <section class="contact-hero" aria-labelledby="contacts-title">
+      <p class="contact-hero__eyebrow">Свяжитесь со мной</p>
+      <h1 id="contacts-title" class="contact-hero__title">
+        <span class="hero-title-word">Контакты</span>
+      </h1>
+      <p class="contact-hero__lead">
+        Есть проект, вопрос или предложение? Напишите, и я отвечу с понятным
+        следующим шагом: формат, сроки, риски и что потребуется от команды.
+      </p>
+      <div class="contact-hero__rule" aria-hidden="true"></div>
+
+      <ul class="contact-channels" aria-label="Прямые контакты">
+        <li class="contact-channel">
+          <span class="contact-channel__label">Email</span>
+          <a class="contact-channel__value" href="mailto:hello@andyvi.dev">
+            hello@andyvi.dev
+          </a>
+        </li>
+        <li class="contact-channel">
+          <span class="contact-channel__label">Telegram</span>
+          <a
+            class="contact-channel__value"
+            href="https://t.me/andyvi_frontend"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            @andyvi_frontend
+          </a>
+        </li>
+        <li class="contact-channel">
+          <span class="contact-channel__label">Локация</span>
+          <span class="contact-channel__value">Екатеринбург, UTC+5</span>
+        </li>
+      </ul>
+    </section>
+
+    <section class="contact-panel" aria-labelledby="contact-form-title">
+      <div class="contact-panel__header">
+        <p class="contact-panel__kicker">Запрос</p>
+        <h2 id="contact-form-title" class="contact-panel__title">
+          Написать мне
+        </h2>
+        <p class="contact-panel__lead">
+          Коротко опишите задачу. Форма работает без JavaScript; при включенном
+          JavaScript она только добавляет состояние отправки и защиту от
+          повторного нажатия.
+        </p>
+      </div>
+
+      <form
+        class="contact-form"
+        method="POST"
+        action={action}
+        data-contact-form
+        data-state={statusKind}
+        aria-describedby="contact-form-status contact-privacy-note"
+      >
+        <div
+          id="contact-form-status"
+          class:list={[
+            "contact-form__status",
+            isAccepted && "is-success",
+            hasError && "is-error",
+          ]}
+          role={hasError ? "alert" : "status"}
+          aria-live={hasError ? "assertive" : "polite"}
+          aria-atomic="true"
+          tabindex="-1"
+          data-contact-status
+          hidden={!statusMessage}
+        >
+          {statusMessage}
+          {
+            actionError?.code === "rate_limited" &&
+              actionError.retryAfterSeconds && (
+                <span>
+                  {" "}
+                  Повторная отправка будет доступна примерно через {
+                    actionError.retryAfterSeconds
+                  } сек.
+                </span>
+              )
+          }
+        </div>
+
+        <div class="contact-form__grid">
+          <div class:list={["contact-field", fieldError("name") && "is-error"]} data-field="name">
+            <label class="contact-field__label" for="contact-name">Имя</label>
+            <input
+              id="contact-name"
+              class="contact-field__control"
+              name="name"
+              type="text"
+              autocomplete="name"
+              required
+              maxlength="80"
+              aria-invalid={fieldError("name") ? "true" : "false"}
+              aria-describedby="contact-name-error"
+              placeholder="Как к вам обращаться?"
+            />
+            <p
+              id="contact-name-error"
+              class="contact-field__error"
+              data-field-error="name"
+              hidden={!fieldError("name")}
+            >
+              {fieldError("name")}
+            </p>
+          </div>
+
+          <div class:list={["contact-field", fieldError("email") && "is-error"]} data-field="email">
+            <label class="contact-field__label" for="contact-email">Email</label>
+            <input
+              id="contact-email"
+              class="contact-field__control"
+              name="email"
+              type="email"
+              autocomplete="email"
+              required
+              maxlength="254"
+              aria-invalid={fieldError("email") ? "true" : "false"}
+              aria-describedby="contact-email-error"
+              placeholder="your@email.com"
+            />
+            <p
+              id="contact-email-error"
+              class="contact-field__error"
+              data-field-error="email"
+              hidden={!fieldError("email")}
+            >
+              {fieldError("email")}
+            </p>
+          </div>
+        </div>
+
+        <div
+          class:list={["contact-field", "contact-field--full", fieldError("message") && "is-error"]}
+          data-field="message"
+        >
+          <label class="contact-field__label" for="contact-message">
+            Сообщение
+          </label>
+          <textarea
+            id="contact-message"
+            class="contact-field__control contact-field__control--textarea"
+            name="message"
+            required
+            minlength="10"
+            maxlength="5000"
+            aria-invalid={fieldError("message") ? "true" : "false"}
+            aria-describedby="contact-message-error contact-message-help"
+            placeholder="Расскажите о задаче, сроках и ожидаемом результате."
+          ></textarea>
+          <p id="contact-message-help" class="contact-field__hint">
+            Минимум 10 символов, максимум 5000.
+          </p>
+          <p
+            id="contact-message-error"
+            class="contact-field__error"
+            data-field-error="message"
+            hidden={!fieldError("message")}
+          >
+            {fieldError("message")}
+          </p>
+        </div>
+
+        <div class="contact-form__honeypot" aria-hidden="true">
+          <label for="contact-website">Website</label>
+          <input
+            id="contact-website"
+            name="website"
+            type="text"
+            tabindex="-1"
+            autocomplete="off"
+          />
+        </div>
+
+        <button
+          class="submit-button"
+          type="submit"
+          data-submit-button
+          data-idle-label="Отправить сообщение"
+          data-loading-label="Отправка..."
+        >
+          <i class="submit-border-orbit" aria-hidden="true"></i>
+          <span data-submit-label>Отправить сообщение</span>
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+            <path
+              d="M5 12h14M14 7l5 5-5 5"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"></path>
+          </svg>
+        </button>
+
+        <noscript>
+          <p class="contact-form__noscript">
+            JavaScript отключен: форма отправится обычным POST-запросом, а
+            результат появится после перезагрузки страницы.
+          </p>
+        </noscript>
+      </form>
+
+      <section
+        id="contact-privacy-note"
+        class="privacy-note"
+        aria-labelledby="contact-privacy-title"
+      >
+        <h3 id="contact-privacy-title">Конфиденциальность</h3>
+        <p>
+          Данные из формы используются только для ответа на ваш запрос. В этом
+          графе приложение не создает persistent app storage для содержимого
+          формы: сообщение передается в почтовый ящик владельца сайта.
+        </p>
+        <p>
+          Срок хранения и удаление писем контролирует владелец mailbox. Логи
+          приложения не должны содержать тело сообщения, email пользователя или
+          содержимое staging-smoke отправок.
+        </p>
+      </section>
+    </section>
+
+    <RightRuler current="05" total="05" label="Индикатор 05-05" />
+    <BottomHud />
+  </div>
+</div>
+
+<script>
+  import { bindContactForm } from "@/scripts/contactForm";
+
+  bindContactForm();
+  document.addEventListener("astro:page-load", () => bindContactForm());
+</script>
+
+<style>
+  .contacts-route {
+    position: relative;
+    min-height: 100vh;
+    min-height: 100dvh;
+  }
+
+  .contacts-frame {
+    background:
+      linear-gradient(
+        90deg,
+        rgba(0, 2, 7, 0.78),
+        rgba(0, 4, 10, 0.96) 52%,
+        rgba(0, 2, 7, 0.99)
+      ),
+      radial-gradient(
+        circle at 24% 42%,
+        rgba(80, 156, 190, 0.14),
+        transparent 34%
+      ),
+      radial-gradient(
+        circle at 64% 38%,
+        rgba(126, 210, 255, 0.08),
+        transparent 30%
+      ),
+      var(--bg);
+  }
+
+  .contact-hero,
+  .contact-panel {
+    position: absolute;
+    z-index: var(--z-content);
+  }
+
+  .contact-hero {
+    left: 72px;
+    top: 170px;
+    width: 760px;
+  }
+
+  .contact-hero__eyebrow,
+  .contact-panel__kicker,
+  .contact-channel__label,
+  .contact-field__label {
+    font-family: var(--font-heading);
+    font-weight: var(--font-weight-medium);
+    letter-spacing: var(--letter-wider);
+    text-transform: uppercase;
+  }
+
+  .contact-hero__eyebrow {
+    margin-block-end: var(--space-12);
+    color: var(--cold-white);
+    font-size: 24px;
+    line-height: var(--line-none);
+    text-shadow: 0 0 12px rgba(189, 232, 255, 0.25);
+  }
+
+  .contact-hero__title {
+    margin-block-end: var(--space-12);
+    color: var(--cold-white);
+    font-family: var(--font-heading);
+    font-size: 84px;
+    font-weight: var(--font-weight-black);
+    line-height: var(--line-display);
+    letter-spacing: var(--letter-ui);
+    text-transform: uppercase;
+    text-shadow: var(--text-shadow-title);
+  }
+
+  .contact-hero__lead {
+    max-width: 640px;
+    margin-block-end: var(--space-21);
+    color: #b7c0c9;
+    font-size: 25px;
+    font-weight: 300;
+    line-height: var(--line-copy);
+    text-shadow: 0 0 14px rgba(165, 215, 240, 0.12);
+  }
+
+  .contact-hero__rule {
+    width: 392px;
+    height: 1px;
+    margin-block-end: var(--space-21);
+    background: linear-gradient(
+      90deg,
+      rgba(226, 248, 255, 0.82),
+      rgba(150, 224, 255, 0.2),
+      transparent
+    );
+    box-shadow: 0 0 14px rgba(181, 232, 255, 0.26);
+  }
+
+  .contact-channels {
+    display: grid;
+    max-width: 680px;
+    gap: 18px;
+  }
+
+  .contact-channel,
+  .contact-panel {
+    border: 1px solid var(--color-panel-border);
+    background:
+      linear-gradient(180deg, rgba(9, 23, 31, 0.76), rgba(1, 5, 10, 0.56)),
+      rgba(2, 8, 14, 0.32);
+    box-shadow: var(--shadow-panel);
+    clip-path: polygon(
+      16px 0,
+      100% 0,
+      100% calc(100% - 16px),
+      calc(100% - 16px) 100%,
+      0 100%,
+      0 16px
+    );
+  }
+
+  .contact-channel {
+    display: grid;
+    gap: var(--space-3);
+    padding: 21px 24px;
+  }
+
+  .contact-channel__label {
+    color: var(--color-text-faint);
+    font-size: 14px;
+  }
+
+  .contact-channel__value {
+    color: var(--cold-white);
+    font-size: 20px;
+    line-height: var(--line-none);
+  }
+
+  a.contact-channel__value {
+    text-decoration: underline;
+    text-decoration-color: rgba(183, 232, 255, 0.28);
+    text-underline-offset: 5px;
+    transition:
+      color var(--dur-base) var(--ease-standard),
+      text-decoration-color var(--dur-base) var(--ease-standard);
+  }
+
+  a.contact-channel__value:hover,
+  a.contact-channel__value:focus-visible {
+    color: #fff;
+    text-decoration-color: rgba(183, 232, 255, 0.82);
+  }
+
+  .contact-panel {
+    left: 980px;
+    top: 170px;
+    width: 830px;
+    min-height: 720px;
+    padding: 42px 46px 44px;
+  }
+
+  .contact-panel::before {
+    position: absolute;
+    inset-inline: 74px;
+    inset-block-start: 0;
+    height: 1px;
+    background: linear-gradient(
+      90deg,
+      transparent,
+      rgba(206, 241, 255, 0.52),
+      transparent
+    );
+    box-shadow: 0 0 14px rgba(146, 222, 255, 0.28);
+    content: "";
+  }
+
+  .contact-panel__header {
+    margin-block-end: var(--space-16);
+  }
+
+  .contact-panel__kicker {
+    margin-block-end: var(--space-4);
+    color: var(--color-text-faint);
+    font-size: 13px;
+  }
+
+  .contact-panel__title {
+    margin-block-end: var(--space-4);
+    color: var(--cold-white);
+    font-size: 34px;
+    line-height: var(--line-none);
+    letter-spacing: var(--letter-ui);
+    text-transform: uppercase;
+    text-shadow: 0 0 12px rgba(189, 232, 255, 0.18);
+  }
+
+  .contact-panel__lead {
+    color: rgba(183, 192, 201, 0.86);
+    font-size: 17px;
+    font-weight: 300;
+  }
+
+  .contact-form {
+    position: relative;
+    display: grid;
+    gap: var(--space-12);
+  }
+
+  .contact-form__status {
+    padding: var(--space-8) var(--space-10);
+    border: 1px solid rgba(188, 231, 249, 0.24);
+    color: var(--color-text);
+    background: rgba(3, 10, 17, 0.54);
+    font-size: 15px;
+    line-height: var(--line-copy);
+    clip-path: polygon(
+      10px 0,
+      100% 0,
+      100% calc(100% - 10px),
+      calc(100% - 10px) 100%,
+      0 100%,
+      0 10px
+    );
+  }
+
+  .contact-form__status.is-success {
+    border-color: var(--color-success-border);
+    color: var(--color-success);
+    background: var(--color-success-bg);
+  }
+
+  .contact-form__status.is-error {
+    border-color: var(--color-danger-border);
+    color: rgba(255, 178, 178, 0.96);
+    background: rgba(44, 12, 16, 0.36);
+  }
+
+  .contact-form__grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: var(--space-12);
+  }
+
+  .contact-field {
+    display: grid;
+    gap: var(--space-5);
+  }
+
+  .contact-field--full {
+    grid-column: 1 / -1;
+  }
+
+  .contact-field__label {
+    color: rgba(244, 248, 255, 0.62);
+    font-size: 13px;
+  }
+
+  .contact-field__control {
+    width: 100%;
+    padding: 16px 18px;
+    border: 1px solid rgba(188, 231, 249, 0.24);
+    color: var(--cold-white);
+    background: rgba(3, 10, 17, 0.54);
+    font-size: 16px;
+    line-height: 1.4;
+    outline: none;
+    transition:
+      border-color var(--dur-base) var(--ease-standard),
+      box-shadow var(--dur-base) var(--ease-standard),
+      background var(--dur-base) var(--ease-standard);
+    clip-path: polygon(
+      10px 0,
+      100% 0,
+      100% calc(100% - 10px),
+      calc(100% - 10px) 100%,
+      0 100%,
+      0 10px
+    );
+  }
+
+  .contact-field__control::placeholder {
+    color: rgba(210, 221, 228, 0.46);
+  }
+
+  .contact-field__control:hover {
+    background: rgba(3, 10, 17, 0.66);
+  }
+
+  .contact-field__control:focus {
+    border-color: var(--color-panel-border-strong);
+    background: rgba(3, 10, 17, 0.72);
+    box-shadow:
+      0 0 18px rgba(91, 183, 231, 0.12),
+      inset 0 0 22px rgba(109, 205, 255, 0.06);
+  }
+
+  .contact-field__control[aria-invalid="true"] {
+    border-color: var(--color-danger-border);
+    box-shadow: 0 0 14px var(--color-danger-shadow);
+  }
+
+  .contact-field__control--textarea {
+    min-height: 164px;
+    resize: vertical;
+  }
+
+  .contact-field__hint,
+  .contact-field__error,
+  .contact-form__noscript {
+    color: rgba(216, 225, 231, 0.68);
+    font-size: 13px;
+    line-height: 1.35;
+  }
+
+  .contact-field__error {
+    color: var(--color-danger);
+  }
+
+  .contact-form__honeypot {
+    position: absolute;
+    inline-size: 1px;
+    block-size: 1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+  }
+
+  .submit-button {
+    position: relative;
+    display: flex;
+    width: 100%;
+    height: 68px;
+    align-items: center;
+    justify-content: center;
+    gap: var(--space-8);
+    border: 0;
+    color: var(--cold-white);
+    background:
+      linear-gradient(
+          112deg,
+          transparent 0 34%,
+          rgba(190, 237, 255, 0.24) 42%,
+          transparent 51%
+        )
+        -280% 0 / 260% 100% no-repeat,
+      linear-gradient(90deg, rgba(11, 24, 33, 0.12), rgba(3, 9, 15, 0.34)),
+      rgba(1, 4, 10, 0.1);
+    font-family: var(--font-heading);
+    font-size: 20px;
+    font-weight: var(--font-weight-semibold);
+    line-height: var(--line-none);
+    letter-spacing: var(--letter-ui);
+    text-transform: uppercase;
+    cursor: pointer;
+    clip-path: polygon(16px 0, 100% 0, 100% 52px, calc(100% - 18px) 100%, 0 100%, 0 16px);
+    transition:
+      color var(--dur-base) var(--ease-standard),
+      filter var(--dur-base) var(--ease-standard),
+      opacity var(--dur-base) var(--ease-standard);
+  }
+
+  .submit-button::before,
+  .submit-button::after {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    content: "";
+  }
+
+  .submit-button::before {
+    border: 1px solid rgba(218, 246, 255, 0.44);
+    clip-path: inherit;
+  }
+
+  .submit-button::after {
+    background:
+      linear-gradient(90deg, transparent, rgba(226, 249, 255, 0.2), transparent)
+        -160% 0 / 160% 100% no-repeat;
+    transition: background-position var(--dur-smooth) var(--ease-shimmer);
+    clip-path: inherit;
+  }
+
+  .submit-button:hover::after,
+  .submit-button:focus-visible::after {
+    background-position: 160% 0;
+  }
+
+  .submit-button:disabled {
+    cursor: wait;
+    opacity: 0.68;
+  }
+
+  .submit-border-orbit {
+    position: absolute;
+    inset: 0;
+    overflow: hidden;
+    pointer-events: none;
+    clip-path: inherit;
+  }
+
+  .submit-border-orbit::before {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 60%;
+    height: 260%;
+    background: linear-gradient(
+      90deg,
+      transparent,
+      rgba(174, 235, 255, 0.42),
+      transparent
+    );
+    transform: translate(-50%, -50%) rotate(0deg);
+    content: "";
+  }
+
+  .privacy-note {
+    margin-block-start: var(--space-12);
+    padding-block-start: var(--space-12);
+    border-block-start: 1px solid rgba(188, 231, 249, 0.18);
+    color: rgba(216, 225, 231, 0.74);
+    font-size: 13px;
+    line-height: 1.45;
+  }
+
+  .privacy-note h3 {
+    margin-block-end: var(--space-5);
+    color: rgba(244, 248, 255, 0.72);
+    font-size: 14px;
+    letter-spacing: var(--letter-label);
+    text-transform: uppercase;
+  }
+
+  .privacy-note p + p {
+    margin-block-start: var(--space-5);
+  }
+
+  @media (width < 1280px) {
+    .contacts-frame {
+      display: grid;
+      gap: var(--space-24);
+      padding:
+        clamp(112px, 16vw, 150px)
+        var(--gutter-responsive-inline)
+        var(--space-32);
+    }
+
+    .contact-hero,
+    .contact-panel {
+      position: relative;
+      inset: auto;
+      width: min(100%, 920px);
+    }
+
+    .contact-hero {
+      padding-block-start: var(--space-8);
+    }
+
+    .contact-hero__title {
+      font-size: var(--text-title-tablet);
+    }
+
+    .contact-hero__lead {
+      font-size: var(--text-lead-compact);
+    }
+
+    .contact-panel {
+      padding: var(--space-24);
+    }
+  }
+
+  @media (width < 820px) {
+    .contacts-frame {
+      gap: var(--space-20);
+      padding:
+        clamp(96px, 28vw, 124px)
+        var(--space-10)
+        var(--space-24);
+    }
+
+    .contact-hero__eyebrow {
+      font-size: clamp(15px, 4vw, 18px);
+      letter-spacing: var(--letter-wide);
+    }
+
+    .contact-hero__title {
+      font-size: var(--text-title-mobile);
+    }
+
+    .contact-hero__lead {
+      font-size: 17px;
+    }
+
+    .contact-hero__rule {
+      width: min(100%, 320px);
+    }
+
+    .contact-channel {
+      padding: 18px;
+    }
+
+    .contact-channel__value {
+      font-size: 18px;
+    }
+
+    .contact-panel {
+      padding: var(--space-16) var(--space-10) var(--space-20);
+    }
+
+    .contact-panel__title {
+      font-size: 28px;
+    }
+
+    .contact-panel__lead {
+      font-size: 15px;
+    }
+
+    .contact-form__grid {
+      grid-template-columns: 1fr;
+    }
+
+    .contact-field__control--textarea {
+      min-height: 140px;
+    }
+
+    .submit-button {
+      min-height: 60px;
+      height: auto;
+      padding: 0 var(--space-10);
+      font-size: 17px;
+    }
+  }
+</style>

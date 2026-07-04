@@ -1,0 +1,81 @@
+---
+import type { WorkItem } from "@/utils/works";
+import ProjectCard from "./ProjectCard.astro";
+
+interface Props {
+  works: readonly WorkItem[];
+  emptyMessage?: string;
+}
+
+const {
+  works,
+  emptyMessage = "По этим фильтрам проектов нет.",
+} = Astro.props;
+---
+
+<section class="projects-grid" id="projectsGrid" data-works-grid aria-label="Список проектов">
+  {works.map((work) => <ProjectCard work={work} />)}
+  <div class="empty-state" id="emptyState" data-works-empty hidden>{emptyMessage}</div>
+</section>
+
+<style>
+  .projects-grid {
+    position: absolute;
+    top: 500px;
+    left: 72px;
+    z-index: var(--z-content);
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 19px 22px;
+    width: 1664px;
+  }
+
+  .empty-state {
+    grid-column: 1 / -1;
+    min-height: 96px;
+    padding: 32px;
+    color: rgba(244, 248, 255, 0.72);
+    border: 1px solid rgba(188, 231, 249, 0.22);
+    background: rgba(3, 10, 17, 0.72);
+    font-family: var(--font-heading);
+    font-size: 20px;
+    text-align: center;
+    clip-path: polygon(16px 0, 100% 0, 100% calc(100% - 16px), calc(100% - 16px) 100%, 0 100%, 0 16px);
+  }
+
+  .empty-state[hidden] {
+    display: none;
+  }
+
+  @media (width < 1840px) and (width >= 1280px) {
+    .projects-grid {
+      right: 124px;
+      width: auto;
+    }
+  }
+
+  @media (width < 1280px) {
+    .projects-grid {
+      position: relative;
+      top: auto;
+      left: auto;
+      width: auto;
+      padding-inline: var(--gutter-responsive-inline);
+      padding-block-end: var(--space-32);
+    }
+  }
+
+  @media (width < 1120px) {
+    .projects-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  @media (width < 820px) {
+    .projects-grid {
+      gap: 18px;
+      padding-inline: max(var(--space-8), env(safe-area-inset-left)) max(var(--space-8), env(safe-area-inset-right));
+      padding-block-end: var(--space-24);
+    }
+  }
+</style>

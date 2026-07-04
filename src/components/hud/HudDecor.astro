@@ -1,0 +1,158 @@
+<div class="hud-decor" data-layer="07_HUD_DECOR" aria-hidden="true">
+  <div class="hud-line left-a"></div>
+  <div class="hud-line left-b"></div>
+  <div class="hud-line mid-a"></div>
+  <div class="hud-line mid-b"></div>
+  <div class="circuit c1"></div>
+  <div class="circuit c2"></div>
+  <div class="tiny-code left">D01<br />D02<br />D03</div>
+  <div class="tiny-code center">SYS<br />HUD<br />01</div>
+  <div class="dot d1"></div>
+  <div class="dot d2"></div>
+  <div class="dot d3"></div>
+  <div class="dot d4"></div>
+</div>
+
+<style>
+  .hud-decor {
+    position: absolute;
+    inset: 0;
+    z-index: var(--z-decor);
+    pointer-events: none;
+  }
+
+  .hud-line {
+    position: absolute;
+    height: 1px;
+    background: linear-gradient(
+      90deg,
+      transparent,
+      rgba(167, 216, 236, 0.24),
+      transparent
+    );
+    box-shadow: 0 0 10px rgba(160, 221, 255, 0.1);
+  }
+
+  .left-a {
+    top: 350px;
+    left: 0;
+    width: 430px;
+  }
+
+  .left-b {
+    top: 368px;
+    left: 0;
+    width: 390px;
+    opacity: 0.5;
+  }
+
+  .mid-a {
+    top: 122px;
+    left: 650px;
+    width: 260px;
+    opacity: 0.26;
+    transform: rotate(-48deg);
+  }
+
+  .mid-b {
+    top: 335px;
+    left: 760px;
+    width: 146px;
+    opacity: 0.24;
+    transform: rotate(90deg);
+  }
+
+  .circuit {
+    position: absolute;
+    border: 1px solid rgba(157, 211, 235, 0.12);
+    border-bottom: 0;
+    border-left: 0;
+    transform: skewX(-28deg);
+  }
+
+  .c1 {
+    top: 82px;
+    left: 620px;
+    width: 190px;
+    height: 180px;
+  }
+
+  .c2 {
+    top: 326px;
+    left: 690px;
+    width: 184px;
+    height: 250px;
+    opacity: 0.52;
+  }
+
+  .tiny-code {
+    position: absolute;
+    color: rgba(177, 224, 244, 0.18);
+    font-family: var(--font-mono);
+    font-size: 10px;
+    line-height: 1.7;
+    text-transform: uppercase;
+  }
+
+  .tiny-code.left {
+    top: 484px;
+    left: 126px;
+  }
+
+  .tiny-code.center {
+    top: 214px;
+    left: 816px;
+  }
+
+  .dot {
+    position: absolute;
+    width: 5px;
+    height: 5px;
+    border-radius: var(--radius-round);
+    background: rgba(202, 240, 255, 0.88);
+    box-shadow: 0 0 12px rgba(181, 232, 255, 0.85);
+  }
+
+  .d1 {
+    top: 65px;
+    left: 39px;
+  }
+
+  .d2 {
+    top: 1015px;
+    left: 924px;
+  }
+
+  .d3 {
+    top: 272px;
+    left: 1602px;
+  }
+
+  .d4 {
+    top: 66px;
+    right: 37px;
+  }
+
+  @media (width < 1280px) {
+    .hud-line.mid-a,
+    .hud-line.mid-b,
+    .circuit,
+    .tiny-code,
+    .dot.d2,
+    .dot.d3 {
+      display: none;
+    }
+
+    .left-a,
+    .left-b {
+      width: min(50vw, 390px);
+    }
+  }
+
+  @media (width < 820px) {
+    .hud-decor {
+      display: none;
+    }
+  }
+</style>
+

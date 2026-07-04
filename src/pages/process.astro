@@ -1,0 +1,17 @@
+---
+import BaseLayout from "@/layouts/BaseLayout.astro";
+import PageFrame from "@/components/shared/PageFrame.astro";
+import ProcessPage from "@/components/process/ProcessPage.astro";
+---
+
+<BaseLayout
+  title="AndyVi — Процесс"
+  description="Прозрачный процесс работы AndyVi: анализ, архитектура, разработка, запуск и поддержка."
+  currentPage="process"
+  canonicalPath="/process"
+>
+  <PageFrame id="frame" label="Процесс работы" class="process-frame">
+    <ProcessPage />
+  </PageFrame>
+</BaseLayout>
+

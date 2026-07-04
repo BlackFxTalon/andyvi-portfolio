@@ -1,0 +1,126 @@
+---
+import AboutLeftStack from "@/components/about/AboutLeftStack.astro";
+import AboutRightPanel from "@/components/about/AboutRightPanel.astro";
+import HudDecor from "@/components/hud/HudDecor.astro";
+import RightRuler from "@/components/hud/RightRuler.astro";
+import PageFrame from "@/components/shared/PageFrame.astro";
+import BaseLayout from "@/layouts/BaseLayout.astro";
+---
+
+<BaseLayout
+  title="AndyVi — Обо мне"
+  description="Frontend-разработчик AndyVi: подход, принципы, ключевые компетенции и опыт работы."
+  currentPage="about"
+  canonicalPath="/about"
+>
+  <PageFrame id="frame" class="about-frame" label="Обо мне">
+    <div class="about-page" data-layer="About / production route">
+      <div class="hud-glow left" aria-hidden="true"></div>
+      <div class="hud-glow right" aria-hidden="true"></div>
+      <AboutLeftStack />
+      <AboutRightPanel />
+      <RightRuler current="03" total="05" label="Индикатор 03-05" />
+      <HudDecor />
+    </div>
+  </PageFrame>
+</BaseLayout>
+
+<style>
+  :global(.about-frame) {
+    background:
+      linear-gradient(
+        90deg,
+        rgba(0, 2, 7, 0.72),
+        rgba(0, 4, 10, 0.98) 50%,
+        rgba(0, 2, 7, 0.99)
+      ),
+      radial-gradient(
+        circle at 32% 40%,
+        rgba(80, 156, 190, 0.14),
+        transparent 34%
+      ),
+      radial-gradient(
+        circle at 64% 33%,
+        rgba(126, 210, 255, 0.08),
+        transparent 30%
+      ),
+      var(--bg);
+  }
+
+  :global(.about-frame)::before {
+    background:
+      radial-gradient(
+        circle at 20% 44%,
+        rgba(143, 220, 255, 0.11),
+        transparent 30%
+      ),
+      linear-gradient(90deg, rgba(146, 220, 255, 0.06), transparent 42%),
+      linear-gradient(180deg, rgba(255, 255, 255, 0.025), transparent 28%);
+    opacity: 0.82;
+  }
+
+  .about-page {
+    position: relative;
+    min-height: var(--frame-height);
+    isolation: isolate;
+  }
+
+  .hud-glow {
+    position: absolute;
+    z-index: var(--z-background);
+    border-radius: var(--radius-pill);
+    filter: blur(34px);
+    opacity: 0.46;
+    pointer-events: none;
+  }
+
+  .hud-glow.left {
+    inset-block-start: 255px;
+    inset-inline-start: 92px;
+    width: 640px;
+    height: 360px;
+    background: rgba(91, 178, 219, 0.18);
+  }
+
+  .hud-glow.right {
+    inset-block-start: 162px;
+    inset-inline-end: 290px;
+    width: 560px;
+    height: 380px;
+    background: rgba(104, 195, 238, 0.11);
+  }
+
+  @media (width < 1280px) {
+    .about-page {
+      display: flex;
+      min-height: 100vh;
+      min-height: 100dvh;
+      flex-direction: column;
+      gap: 24px;
+      padding:
+        118px max(18px, env(safe-area-inset-right))
+        56px max(18px, env(safe-area-inset-left));
+    }
+
+    .hud-glow.left {
+      inset-block-start: 160px;
+      inset-inline-start: -120px;
+      width: min(82vw, 560px);
+    }
+
+    .hud-glow.right {
+      inset-block-start: 310px;
+      inset-inline-end: -190px;
+      width: min(78vw, 500px);
+    }
+  }
+
+  @media (width < 620px) {
+    .about-page {
+      gap: 18px;
+      padding-block-start: 104px;
+      padding-inline: max(12px, env(safe-area-inset-left))
+        max(12px, env(safe-area-inset-right));
+    }
+  }
+</style>

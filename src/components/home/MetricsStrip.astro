@@ -1,0 +1,153 @@
+---
+const metrics = [
+  { value: "4+", label: "ЛЕТ ОПЫТА" },
+  { value: "10+", label: "ПРОЕКТОВ" },
+  { value: "20+", label: "КЛИЕНТОВ" },
+] as const;
+---
+
+<section class="metrics" aria-label="Метрики">
+  {
+    metrics.map((metric, index) => (
+      <>
+        {index > 0 && <div class="metric-divider" aria-hidden="true" />}
+        <div class="metric">
+          <span class="metric-number">{metric.value}</span>
+          <span class="metric-label">{metric.label}</span>
+        </div>
+      </>
+    ))
+  }
+</section>
+
+<style>
+  .metrics {
+    z-index: var(--z-content);
+    display: grid;
+    grid-template-columns:
+      minmax(0, 1fr) 1px minmax(0, 1fr) 1px
+      minmax(0, 1fr);
+    align-items: center;
+    column-gap: 36px;
+    margin-block-start: 2rem;
+  }
+
+  .metric {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+  }
+
+  .metric-number {
+    display: block;
+    width: 100%;
+    color: var(--cold-white);
+    font-family: var(--font-heading);
+    font-size: clamp(0.875rem, 0.75rem + 0.625vw, 1.5rem);
+    font-variant-numeric: tabular-nums;
+    font-weight: var(--font-weight-bold);
+    line-height: 0.96;
+    text-shadow:
+      0 0 18px rgba(169, 229, 255, 0.38),
+      0 7px 2px rgba(0, 0, 0, 0.68);
+  }
+
+  .metric-label {
+    display: block;
+    width: 100%;
+    margin-block-start: 1rem;
+    color: rgba(195, 206, 214, 0.8);
+    font-family: var(--font-heading);
+    font-size: clamp(0.875rem, 0.75rem + 0.625vw, 1.5rem);
+    font-weight: var(--font-weight-medium);
+    line-height: var(--line-none);
+    letter-spacing: 0.11em;
+    text-shadow:
+      0 0 10px rgba(163, 225, 255, 0.16),
+      0 4px 1px rgba(0, 0, 0, 0.54);
+    text-transform: uppercase;
+    white-space: nowrap;
+  }
+
+  .metric-divider {
+    position: relative;
+    align-self: start;
+    width: 1px;
+    height: 75px;
+    margin-block-start: -2px;
+    background: linear-gradient(
+      180deg,
+      transparent 0,
+      rgba(211, 240, 255, 0.16) 3%,
+      rgba(211, 240, 255, 0.46) 43%,
+      transparent 47%,
+      transparent 53%,
+      rgba(211, 240, 255, 0.46) 57%,
+      rgba(211, 240, 255, 0.2) 96%,
+      transparent 100%
+    );
+    box-shadow:
+      0 0 11px rgba(166, 225, 255, 0.2),
+      0 0 28px rgba(88, 187, 235, 0.1);
+  }
+
+  .metric-divider::before,
+  .metric-divider::after {
+    position: absolute;
+    pointer-events: none;
+    content: "";
+  }
+
+  .metric-divider::before {
+    top: 50%;
+    left: 50%;
+    width: 5px;
+    height: 5px;
+    background: rgba(216, 247, 255, 0.92);
+    box-shadow:
+      0 0 8px rgba(190, 236, 255, 0.72),
+      0 0 20px rgba(88, 202, 255, 0.34);
+    transform: translate(-50%, -50%);
+  }
+
+  .metric-divider::after {
+    top: 50%;
+    left: -12px;
+    width: 24px;
+    height: var(--border-width-hairline);
+    background: linear-gradient(
+      90deg,
+      transparent,
+      rgba(214, 245, 255, 0.58),
+      transparent
+    );
+    transform: translateY(-50%);
+  }
+
+  @media (width < 1280px) {
+    .metrics {
+      position: relative;
+      margin-block-start: clamp(2rem, 8vw, 72px);
+      column-gap: clamp(10px, 2vw, 36px);
+    }
+
+    .metric {
+      height: auto;
+      min-width: 0;
+    }
+  }
+
+  @media (width < 820px) {
+    .metric-label {
+      margin-block-start: 1rem;
+      font-size: clamp(0.875rem, 0.75rem + 0.625vw, 1.5rem);
+      letter-spacing: 0.08em;
+    }
+
+    .metric-divider {
+      height: 82px;
+    }
+  }
+</style>

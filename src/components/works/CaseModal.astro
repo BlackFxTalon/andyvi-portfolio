@@ -1,0 +1,139 @@
+<div class="case-modal" id="caseModal" data-case-modal role="dialog" aria-modal="true" aria-labelledby="caseTitle" aria-hidden="true" hidden>
+  <div class="case-panel">
+    <button class="case-close" id="caseClose" data-case-close type="button" aria-label="Закрыть">×</button>
+    <h2 id="caseTitle" data-case-title>Проект</h2>
+    <p id="caseType" data-case-type></p>
+    <div class="case-meta" id="caseMeta" data-case-meta></div>
+    <p id="caseDetail" data-case-detail></p>
+  </div>
+</div>
+
+<style>
+  .case-modal {
+    position: fixed;
+    inset: 0;
+    z-index: var(--z-menu);
+    display: grid;
+    place-items: center;
+    padding: var(--space-24);
+    background: rgba(0, 3, 8, 0.72);
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity var(--dur-medium) var(--ease-standard);
+  }
+
+  .case-modal.is-open {
+    opacity: 1;
+    pointer-events: auto;
+  }
+
+  .case-modal[hidden] {
+    display: none;
+  }
+
+  .case-panel {
+    position: relative;
+    width: min(680px, 100%);
+    padding: 42px 44px 36px;
+    color: var(--color-text);
+    border: 1px solid rgba(205, 242, 255, 0.38);
+    background:
+      linear-gradient(180deg, rgba(8, 20, 29, 0.96), rgba(1, 5, 10, 0.98)),
+      var(--color-panel-bg-strong);
+    box-shadow: var(--shadow-modal);
+    clip-path: polygon(22px 0, 100% 0, 100% calc(100% - 22px), calc(100% - 22px) 100%, 0 100%, 0 22px);
+  }
+
+  .case-close {
+    position: absolute;
+    top: 18px;
+    right: 18px;
+    display: grid;
+    width: 42px;
+    height: 42px;
+    place-items: center;
+    color: rgba(244, 248, 255, 0.82);
+    border: 1px solid rgba(188, 231, 249, 0.2);
+    background: rgba(3, 10, 17, 0.76);
+    font-size: 28px;
+    line-height: 1;
+    cursor: pointer;
+  }
+
+  .case-close:hover,
+  .case-close:focus-visible {
+    color: #fff;
+    border-color: rgba(205, 242, 255, 0.58);
+    box-shadow: var(--shadow-control);
+  }
+
+  .case-panel h2 {
+    max-width: 560px;
+    padding-inline-end: 52px;
+    color: var(--cold-white);
+    font-family: var(--font-heading);
+    font-size: 44px;
+    font-weight: var(--font-weight-bold);
+    letter-spacing: var(--letter-ui);
+    line-height: var(--line-compact);
+    text-transform: uppercase;
+  }
+
+  #caseType {
+    margin-block-start: 8px;
+    color: rgba(216, 235, 245, 0.72);
+    font-size: 18px;
+  }
+
+  .case-meta {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 10px;
+    margin-block: 24px;
+  }
+
+  .case-meta span {
+    min-height: 34px;
+    padding: 9px 12px;
+    overflow: hidden;
+    color: rgba(237, 247, 252, 0.86);
+    border: 1px solid rgba(186, 235, 255, 0.16);
+    background: rgba(4, 12, 18, 0.52);
+    font-size: 13px;
+    line-height: 1;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  #caseDetail {
+    max-width: none;
+    color: rgba(224, 234, 240, 0.82);
+    font-size: 17px;
+    line-height: var(--line-relaxed);
+  }
+
+  @media (width < 820px) {
+    .case-modal {
+      padding: var(--space-8);
+    }
+
+    .case-panel {
+      padding: 34px 22px 26px;
+    }
+
+    .case-panel h2 {
+      padding-inline-end: 48px;
+      font-size: 32px;
+    }
+
+    .case-meta {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .case-modal {
+      transition: none;
+    }
+  }
+</style>
