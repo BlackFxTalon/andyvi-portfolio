@@ -1,7 +1,7 @@
 ---
 import { getTechnology } from "@/data/technologies";
 import type { WorkItem } from "@/utils/works";
-import ProjectPreview from "./ProjectPreview.astro";
+import CaseDiagram from "./CaseDiagram.astro";
 import TechnologyIcon from "./TechnologyIcon.astro";
 
 interface Props {
@@ -25,7 +25,7 @@ const stackValue = work.stack.join(" ");
   data-stack={stackValue}
   data-detail={work.details ?? work.summary}
 >
-  <ProjectPreview work={work} />
+  <CaseDiagram work={work} />
 
   <div class="project-body">
     <h2 class="project-title">{work.title}</h2>
@@ -54,8 +54,8 @@ const stackValue = work.stack.join(" ");
           {primaryLink.label} <span aria-hidden="true">↗</span>
         </a>
       ) : (
-        <span class="card-link is-disabled" aria-label={`Ссылка на проект ${work.title} недоступна`}>
-          Ссылка на проект <span aria-hidden="true">↗</span>
+        <span class="card-link is-disabled">
+          Публичная ссылка не указана
         </span>
       )
     }
@@ -266,5 +266,19 @@ const stackValue = work.stack.join(" ");
     .card-link:not(.is-disabled):focus-visible {
       transform: none;
     }
+  }
+  .project-card {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .project-title {
+    overflow-wrap: anywhere;
+    line-height: 1.2;
+  }
+
+  .card-actions {
+    position: static;
+    display: flex;
+    flex-wrap: wrap;
   }
 </style>
