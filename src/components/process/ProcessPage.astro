@@ -693,18 +693,7 @@ import ProcessSummary from "./ProcessSummary.astro";
     left: 816px;
   }
 
-  @media (width >= 1280px) {
-    :global(.process-frame) {
-      height: var(--frame-height);
-      min-height: 0;
-    }
-
-    :global(.process-page) {
-      min-height: var(--frame-height);
-    }
-  }
-
-  @media (width < 1280px) {
+  @media (width >= 0px) {
     :global(.process-frame) {
       min-height: 100vh;
       min-height: 100dvh;

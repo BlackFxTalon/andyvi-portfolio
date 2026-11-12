@@ -178,8 +178,7 @@ const isActive = (id: PageId, href: string) =>
     content: "";
     position: absolute;
     inset-block-start: 38px;
-    inset-inline-start: -200px;
-    width: 700px;
+    inset-inline: 0;
     height: var(--border-width-hairline);
     background: linear-gradient(90deg, transparent, rgba(198, 224, 241, 0.1) 10%, rgba(198, 224, 241, 0.22) 74%, transparent);
   }
@@ -187,7 +186,7 @@ const isActive = (id: PageId, href: string) =>
   .nav::after {
     position: absolute;
     inset-block-start: 15px;
-    inset-inline-end: -138px;
+    inset-inline-end: 0;
     width: 42px;
     height: 24px;
     border-right: var(--border-width-hairline) solid var(--color-line-strong);
