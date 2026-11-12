@@ -27,4 +27,5 @@
 - SMTP delivery remains unverified until a configured test environment is available.
 - The project overview pages intentionally leave personal contribution and permitted screenshots unconfirmed; do not treat them as three completed case studies.
 - The user has not yet approved the visual direction. The site has not been published.
+- `npm audit --omit=dev` on the clean lockfile reports 14 production dependency advisories, including one critical and twelve high. Astro and @astrojs/node fixes require major upgrades according to npm; dependency remediation and retesting remain open before release.
 
