@@ -12,6 +12,7 @@ for (const width of [320, 390]) {
       const box = await description.boundingBox();
       expect(box?.width).toBeGreaterThan(150);
       await expect(description).toBeVisible();
+      expect(await description.evaluate((element) => parseFloat(getComputedStyle(element).fontSize))).toBeGreaterThanOrEqual(16);
     }
   });
 }
