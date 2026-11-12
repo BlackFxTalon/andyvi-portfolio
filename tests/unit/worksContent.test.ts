@@ -4,6 +4,7 @@ import {
   buildWorkSearchIndex,
   createWorkModalState,
   createWorksListState,
+  getWorkModalMeta,
   filterWorks,
   normalizeSearchText,
   sortWorks,
@@ -51,6 +52,19 @@ const worksFixture = [
 ] as const satisfies readonly WorkItem[];
 
 describe("works content helpers", () => {
+  it("does not invent a date or technology for a project with unconfirmed details", () => {
+    const work: WorkItem = {
+      slug: "unknown-details",
+      title: "Project",
+      summary: "Project details have not been confirmed yet.",
+      type: "Project",
+      category: "web",
+      stack: [],
+    };
+    assert.deepEqual(getWorkModalMeta(work), ["Web app"]);
+    assert.equal(sortWorks([work])[0], work);
+  });
+
   it("normalizes search text and includes semantic content in the index", () => {
     assert.equal(normalizeSearchText("  CRM\tDASHBOARDS  "), "crm dashboards");
     assert.match(buildWorkSearchIndex(worksFixture[1]), /marketplace sellers/);

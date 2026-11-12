@@ -17,8 +17,8 @@ export interface WorkItem {
   readonly summary: string;
   readonly type: string;
   readonly category: WorkCategory;
-  readonly year: number;
-  readonly status: 'production' | 'development' | 'archived';
+  readonly year?: number;
+  readonly status?: 'production' | 'development' | 'archived';
   readonly stack: readonly string[];
   readonly details?: string;
   readonly links?: readonly WorkLink[];
@@ -135,7 +135,9 @@ export function sortWorks<TWork extends WorkItem>(
   const multiplier = direction === 'asc' ? 1 : -1;
 
   return [...works].sort((left, right) => {
-    const yearDelta = (left.year - right.year) * multiplier;
+    if (left.year == null && right.year != null) return 1;
+    if (left.year != null && right.year == null) return -1;
+    const yearDelta = ((left.year ?? 0) - (right.year ?? 0)) * multiplier;
     if (yearDelta !== 0) return yearDelta;
 
     const orderDelta = ((left.order ?? 0) - (right.order ?? 0)) * multiplier;
@@ -264,7 +266,7 @@ export function closeWorkModal<TWork extends WorkItem>(
 
 export function getWorkModalMeta(work: WorkItem): string[] {
   return [
-    String(work.year),
+    work.year == null ? '' : String(work.year),
     getWorkCategoryLabel(work.category),
     ...work.stack,
   ].filter(Boolean).slice(0, 6);

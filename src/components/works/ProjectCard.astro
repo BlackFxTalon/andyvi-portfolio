@@ -20,8 +20,8 @@ const stackValue = work.stack.join(" ");
   data-type={work.type}
   data-category={work.category}
   data-status={work.status}
-  data-year={String(work.year)}
-  data-date={String(work.year)}
+  data-year={work.year}
+  data-date={work.year}
   data-stack={stackValue}
   data-detail={work.details ?? work.summary}
 >
@@ -31,8 +31,8 @@ const stackValue = work.stack.join(" ");
     <h2 class="project-title">{work.title}</h2>
     <div class="project-kicker">{work.type}</div>
     <p class="project-desc">{work.summary}</p>
-    <div class="stack-label">Описание технологии/стек</div>
-    <div class="tag-row" aria-label="Технологии проекта">
+    {technologies.length > 0 && <div class="stack-label">Технологии</div>}
+    <div class="tag-row" aria-label={technologies.length > 0 ? "Технологии проекта" : undefined}>
       {
         technologies.map((technology) => (
           <span class="tech-tag" data-tech-category={technology.category}>

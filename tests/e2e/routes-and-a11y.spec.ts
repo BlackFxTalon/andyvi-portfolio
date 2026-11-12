@@ -106,8 +106,8 @@ test.describe("reduced motion", () => {
     await gotoAndAssertClean(page, "/works");
 
     await expect.poll(() => page.evaluate(() => matchMedia("(prefers-reduced-motion: reduce)").matches)).toBe(true);
-    await page.locator("#filterToggle").click();
-    await expect(page.locator("#advancedFilters")).toHaveClass(/is-open/);
+    await page.locator(".card-open").first().click();
+    await expect(page.getByRole("dialog")).toBeVisible();
 
     const modalTransitionDuration = await page.locator("#caseModal").evaluate((modal) =>
       getComputedStyle(modal).transitionDuration,

@@ -1,23 +1,17 @@
 ---
 title: AUTOAPP
 slug: autoapp
-summary: >-
-  Миграция с Vue 2 на Vue 3 + TypeScript. Каталог по СТО + товаров,
-  оптимизация производительности и улучшение UX.
-type: E-commerce платформа
-year: 2026
+summary: Опыт frontend-разработки в ООО «АВТОАПП» с использованием Vue, Nuxt и TypeScript.
+type: Опыт работы
 category: web
-status: production
 stack:
   - Vue
+  - Nuxt
   - TypeScript
-  - Pinia
-details: >-
-  Миграция с Vue 2 на Vue 3 + TypeScript. Каталог по СТО, подбор,
-  оптимизация производительности и улучшение UX.
+details: Frontend-разработчик в ООО «АВТОАПП» с января 2024 года. Описание отдельных проектов и личного вклада уточняется.
 links: []
 order: 40
 featured: true
 ---
 
-AUTOAPP представлен в прототипе как e-commerce платформа на Vue, TypeScript и Pinia.
+Описание конкретных проектов и личного вклада уточняется.

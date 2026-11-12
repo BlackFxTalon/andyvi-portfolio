@@ -8,7 +8,6 @@ import RightRuler from "@/components/hud/RightRuler.astro";
 import BottomHud from "@/components/hud/BottomHud.astro";
 import CaseModal from "@/components/works/CaseModal.astro";
 import ProjectsGrid from "@/components/works/ProjectsGrid.astro";
-import WorkControls from "@/components/works/WorkControls.astro";
 import { createWorksListState, type WorkItem } from "@/utils/works";
 
 const entries = await getCollection("works");
@@ -44,7 +43,6 @@ const worksState = createWorksListState(workItems, {}, "desc");
       <p>Все проекты, над которыми я работал.<br />От веб-приложений до сложных систем.</p>
     </section>
 
-    <WorkControls totalCount={worksState.totalCount} />
     <ProjectsGrid works={worksState.items} emptyMessage={worksState.emptyState.message || "По этим фильтрам проектов нет."} />
     <RightRuler current="02" total="05" label="Индикатор 02-05" />
     <HudDecor />
@@ -159,6 +157,17 @@ const worksState = createWorksListState(workItems, {}, "desc");
 
     .hero-copy p {
       font-size: 18px;
+    }
+  }
+</style>
+
+<style is:global>
+  @media (width >= 1280px) {
+    .works-frame .projects-grid {
+      position: relative;
+      inset: auto;
+      width: auto;
+      margin: 500px 36px 0;
     }
   }
 </style>

@@ -11,7 +11,7 @@
 
 - [ ] 5. Redesign the home page, move the portrait to About, and agree on visual direction.
 - [ ] 6. Verify typography, contrast, keyboard access, and reduced motion.
-- [ ] 7. Repair previews, actions, and catalog filters.
+- [x] 7. Repair previews, actions, and catalog filters.
 - [ ] 8. Create three agreed cases after confirming roles and permitted materials.
 
 ## P2 - Journey and acceptance

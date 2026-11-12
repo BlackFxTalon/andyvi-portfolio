@@ -1,7 +1,7 @@
 import { expect, type Page, type Request, type Response } from "@playwright/test";
 
 export const productionRoutes = [
-  { id: "home", path: "/", titlePattern: /AndyVi/ },
+  { id: "home", path: "/", titlePattern: /Андрей Воронцов/ },
   { id: "works", path: "/works", titlePattern: /AndyVi/ },
   { id: "about", path: "/about", titlePattern: /AndyVi/ },
   { id: "process", path: "/process", titlePattern: /AndyVi/ },

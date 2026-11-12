@@ -6,6 +6,12 @@ interface Props {
 }
 
 const { work } = Astro.props;
+const subjects: Record<string, string[]> = {
+  autoapp: ["Frontend", "Vue / Nuxt", "TypeScript"],
+  erp4seller: ["Селлеры", "ERP", "Маркетплейсы"],
+  interno: ["Мебель", "Каталог", "Магазин"],
+  "industrial-configurator": ["Промышленность", "Конфигуратор", "Оборудование"],
+};
 ---
 
 <div class="case-diagram" role="img" aria-label={`Схема проекта ${work.title}`}>
@@ -13,7 +19,7 @@ const { work } = Astro.props;
   <strong>{work.title}</strong>
   <span class="case-diagram__type">{work.type}</span>
   <div class="case-diagram__nodes" aria-hidden="true">
-    <span>Интерфейс</span><span>›</span><span>Данные</span><span>›</span><span>Результат</span>
+    {(subjects[work.slug] ?? [work.type]).map((subject) => <span>{subject}</span>)}
   </div>
 </div>
 
@@ -49,7 +55,7 @@ const { work } = Astro.props;
     font-size: 13px;
   }
 
-  .case-diagram__nodes span:nth-child(odd) {
+  .case-diagram__nodes span {
     padding: 6px 8px;
     border: 1px solid rgba(183, 229, 249, 0.25);
   }

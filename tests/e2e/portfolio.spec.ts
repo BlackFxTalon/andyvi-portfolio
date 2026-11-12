@@ -178,29 +178,13 @@ test("keeps desktop navigation and browser back-forward history coherent", async
   await expectRuntimeClean(issues);
 });
 
-test("filters Works by search/category/technology and opens a keyboard-closeable case modal", async ({ page }) => {
+test("shows Works and opens a keyboard-closeable case modal", async ({ page }) => {
   const issues = collectRuntimeIssues(page);
 
   await gotoReady(page, "/works");
   await expect(page.locator(".project-card")).toHaveCount(4);
-  await expect(page.locator("[data-works-status]")).toContainText(/Shown 4 projects|Показано 4/);
-
-  await page.locator("[data-works-search]").fill("ERP4Seller");
-  await expect(await visibleProjectCards(page)).toHaveCount(1);
-  await expect(page.locator(".project-card:not([hidden])")).toHaveAttribute("data-title", "ERP4Seller");
-  await expect(page.locator("[data-works-status]")).toContainText("Shown 1 project");
-
-  await page.locator("[data-works-search]").fill("");
-  await page.locator('button[data-category="crm"]').click();
-  await expect(await visibleProjectCards(page)).toHaveCount(2);
-  await expect(page.locator("[data-works-status]")).toContainText("Shown 2 projects");
-
-  await page.locator('button[data-category="all"]').click();
-  await page.locator("#filterToggle").click();
-  await expect(page.locator("#advancedFilters")).toHaveClass(/is-open/);
-  await page.locator('input[data-tech-filter][value="Vue"]').check({ force: true });
-  await expect(await visibleProjectCards(page)).toHaveCount(3);
-  await expect(page.locator("[data-works-status]")).toContainText("Shown 3 projects");
+  await expect(await visibleProjectCards(page)).toHaveCount(4);
+  await expect(page.locator("[data-works-search], #filterToggle, #sortBox")).toHaveCount(0);
 
   const firstCard = page.locator(".project-card:not([hidden])").first();
   const expectedTitle = await firstCard.getAttribute("data-title");

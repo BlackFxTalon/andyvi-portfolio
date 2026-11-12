@@ -16,10 +16,10 @@ const works = defineCollection({
     slug: z.string().regex(/^[a-z0-9-]+$/),
     summary: z.string().min(40).max(220),
     type: z.string().min(1),
-    year: z.number().int().min(2015),
+    year: z.number().int().min(2015).optional(),
     category: z.enum(WORK_CATEGORIES),
-    status: z.enum(WORK_STATUSES).default('production'),
-    stack: z.array(z.enum(WORK_TECHNOLOGIES)).min(1),
+    status: z.enum(WORK_STATUSES).optional(),
+    stack: z.array(z.enum(WORK_TECHNOLOGIES)).default([]),
     details: z.string().min(1),
     links: z
       .array(
