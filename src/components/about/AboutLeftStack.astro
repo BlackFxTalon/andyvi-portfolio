@@ -406,7 +406,13 @@ const strengths = [
     }
 
     .step-icon {
+      grid-row: 1 / 3;
       margin: 0;
+    }
+
+    .step-card h3,
+    .step-card p {
+      grid-column: 2;
     }
 
     .step-card h3 {
@@ -432,6 +438,12 @@ const strengths = [
     .principle-card:hover,
     .principle-card:focus-within {
       transform: none;
+    }
+  }
+
+  @media (width < 380px) {
+    .step-card p {
+      grid-column: 1 / -1;
     }
   }
 </style>

@@ -3,7 +3,7 @@
 ## P0 - Accessibility and contacts
 
 - [ ] 1. Repair layouts at the specified widths and 200% zoom.
-- [ ] 2. Repair and verify all five mobile approach cards.
+- [x] 2. Repair and verify all five mobile approach cards.
 - [x] 3. Update contacts, experience, metrics, and contact form copy.
 - [ ] 4. Verify validation, error data retention, and delivery in an agreed test environment.
 
