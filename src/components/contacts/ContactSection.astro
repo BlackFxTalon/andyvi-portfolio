@@ -67,19 +67,19 @@ function fieldError(field: ContactField): string | undefined {
       <ul class="contact-channels" aria-label="Прямые контакты">
         <li class="contact-channel">
           <span class="contact-channel__label">Email</span>
-          <a class="contact-channel__value" href="mailto:hello@andyvi.dev">
-            hello@andyvi.dev
+          <a class="contact-channel__value" href="mailto:andyv@inbox.ru">
+            andyv@inbox.ru
           </a>
         </li>
         <li class="contact-channel">
           <span class="contact-channel__label">Telegram</span>
           <a
             class="contact-channel__value"
-            href="https://t.me/andyvi_frontend"
+            href="https://t.me/Black_Claw14"
             target="_blank"
             rel="noopener noreferrer"
           >
-            @andyvi_frontend
+            @Black_Claw14
           </a>
         </li>
         <li class="contact-channel">
@@ -96,9 +96,8 @@ function fieldError(field: ContactField): string | undefined {
           Написать мне
         </h2>
         <p class="contact-panel__lead">
-          Коротко опишите задачу. Форма работает без JavaScript; при включенном
-          JavaScript она только добавляет состояние отправки и защиту от
-          повторного нажатия.
+          Расскажите, что хотите создать или улучшить. Если есть сайт, макет
+          или описание задачи, добавьте ссылку.
         </p>
       </div>
 
@@ -249,12 +248,6 @@ function fieldError(field: ContactField): string | undefined {
           </svg>
         </button>
 
-        <noscript>
-          <p class="contact-form__noscript">
-            JavaScript отключен: форма отправится обычным POST-запросом, а
-            результат появится после перезагрузки страницы.
-          </p>
-        </noscript>
       </form>
 
       <section
@@ -263,16 +256,7 @@ function fieldError(field: ContactField): string | undefined {
         aria-labelledby="contact-privacy-title"
       >
         <h3 id="contact-privacy-title">Конфиденциальность</h3>
-        <p>
-          Данные из формы используются только для ответа на ваш запрос. В этом
-          графе приложение не создает persistent app storage для содержимого
-          формы: сообщение передается в почтовый ящик владельца сайта.
-        </p>
-        <p>
-          Срок хранения и удаление писем контролирует владелец mailbox. Логи
-          приложения не должны содержать тело сообщения, email пользователя или
-          содержимое staging-smoke отправок.
-        </p>
+        <p>Данные из формы передаются на почту для ответа на ваш запрос.</p>
       </section>
     </section>
 

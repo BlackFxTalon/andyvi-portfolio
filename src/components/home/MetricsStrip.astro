@@ -1,8 +1,6 @@
 ---
 const metrics = [
-  { value: "4+", label: "ЛЕТ ОПЫТА" },
   { value: "10+", label: "ПРОЕКТОВ" },
-  { value: "20+", label: "КЛИЕНТОВ" },
 ] as const;
 ---
 
@@ -24,9 +22,7 @@ const metrics = [
   .metrics {
     z-index: var(--z-content);
     display: grid;
-    grid-template-columns:
-      minmax(0, 1fr) 1px minmax(0, 1fr) 1px
-      minmax(0, 1fr);
+    grid-template-columns: minmax(0, 1fr);
     align-items: center;
     column-gap: 36px;
     margin-block-start: 2rem;
