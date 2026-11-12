@@ -1,5 +1,6 @@
 ---
 import { getTechnology } from "@/data/technologies";
+import { cases } from "@/data/cases";
 import type { WorkItem } from "@/utils/works";
 import CaseDiagram from "./CaseDiagram.astro";
 import TechnologyIcon from "./TechnologyIcon.astro";
@@ -12,6 +13,7 @@ const { work } = Astro.props;
 const technologies = work.stack.map(getTechnology);
 const primaryLink = work.links?.[0];
 const stackValue = work.stack.join(" ");
+const hasCase = cases.some((project) => project.slug === work.slug);
 ---
 
 <article
@@ -45,9 +47,15 @@ const stackValue = work.stack.join(" ");
   </div>
 
   <div class="card-actions">
-    <button class="card-open" type="button" aria-haspopup="dialog" data-action="open-case">
-      Описание проекта <span aria-hidden="true">›</span>
-    </button>
+    {hasCase ? (
+      <a class="card-open" href={`/works/${work.slug}`}>
+        Описание проекта <span aria-hidden="true">›</span>
+      </a>
+    ) : (
+      <button class="card-open" type="button" aria-haspopup="dialog" data-action="open-case">
+        Описание проекта <span aria-hidden="true">›</span>
+      </button>
+    )}
     {
       primaryLink ? (
         <a class="card-link" href={primaryLink.href} aria-label={`${primaryLink.label}: ${work.title}`} target="_blank" rel="noreferrer">

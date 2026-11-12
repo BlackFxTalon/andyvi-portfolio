@@ -7,10 +7,10 @@ for (const width of [320, 390, 1440, 1920]) {
     await page.goto("/works");
     await expect(page.getByRole("searchbox")).toHaveCount(0);
     const cards = page.locator(".project-card");
-    await expect(cards).toHaveCount(4);
+    await expect(cards).toHaveCount(5);
     for (const card of await cards.all()) {
       await expect(card.getByRole("img", { name: /^Схема проекта/ })).toBeVisible();
-      await expect(card.getByRole("button", { name: /Описание проекта/ })).toBeVisible();
+      await expect(card.locator(".card-open")).toBeVisible();
       await expect(card.getByText("Публичная ссылка не указана")).toBeVisible();
       const box = await card.boundingBox();
       expect(box?.x).toBeGreaterThanOrEqual(0);
@@ -24,9 +24,7 @@ test("project details omit unconfirmed dates and technologies", async ({ page })
   await page.goto("/works");
   const card = page.locator(".project-card").filter({ hasText: "ERP4Seller" });
   await expect(card.locator(".case-diagram")).toContainText("Маркетплейсы");
-  await card.getByRole("button", { name: /Описание проекта/ }).click();
-  const modal = page.getByRole("dialog");
-  await expect(modal).toBeVisible();
-  await expect(modal).toContainText("Личная роль, технологии и доступные материалы уточняются");
-  await expect(modal).not.toContainText(/2025|Chart\.js|Pinia|Vue/);
+  await card.getByRole("link", { name: /Описание проекта/ }).click();
+  await expect(page.getByRole("heading", { level: 1 })).toHaveText("ERP4Seller");
+  await expect(page.locator(".case-page")).not.toContainText(/2025|Chart\.js|Pinia|Vue/);
 });

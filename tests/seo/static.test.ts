@@ -7,7 +7,7 @@ import { GET as robotsGet } from "../../src/pages/robots.txt.ts";
 import { GET as sitemapGet } from "../../src/pages/sitemap.xml.ts";
 
 const site = new URL("https://andyvi.ru");
-const canonicalRoutes = ["/", "/works", "/about", "/process", "/contacts"] as const;
+const canonicalRoutes = ["/", "/works", "/about", "/process", "/contacts", "/works/ai-avito-admin", "/works/erp4seller", "/works/interno"] as const;
 const pageFiles = [
   ["src/pages/index.astro", "/"],
   ["src/pages/works.astro", "/works"],

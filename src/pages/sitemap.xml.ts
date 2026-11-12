@@ -1,9 +1,10 @@
 import type { APIRoute } from "astro";
+import { cases } from "../data/cases.ts";
 
 export const prerender = true;
 
 const fallbackSite = "https://andyvi.ru/";
-const canonicalRoutes = ["/", "/works", "/about", "/process", "/contacts"] as const;
+const canonicalRoutes = ["/", "/works", "/about", "/process", "/contacts", ...cases.map(({ slug }) => `/works/${slug}`)];
 
 function escapeXml(value: string): string {
   return value

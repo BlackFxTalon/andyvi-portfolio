@@ -7,7 +7,7 @@ test.describe("works route interactions", () => {
   });
 
   test("shows the small catalog without unnecessary filters", async ({ page }) => {
-    await expect(page.locator(".project-card:visible")).toHaveCount(4);
+    await expect(page.locator(".project-card:visible")).toHaveCount(5);
     await expect(page.locator("#projectSearch, #sortBox, #filterToggle")).toHaveCount(0);
   });
 

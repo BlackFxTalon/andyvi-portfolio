@@ -182,11 +182,11 @@ test("shows Works and opens a keyboard-closeable case modal", async ({ page }) =
   const issues = collectRuntimeIssues(page);
 
   await gotoReady(page, "/works");
-  await expect(page.locator(".project-card")).toHaveCount(4);
-  await expect(await visibleProjectCards(page)).toHaveCount(4);
+  await expect(page.locator(".project-card")).toHaveCount(5);
+  await expect(await visibleProjectCards(page)).toHaveCount(5);
   await expect(page.locator("[data-works-search], #filterToggle, #sortBox")).toHaveCount(0);
 
-  const firstCard = page.locator(".project-card:not([hidden])").first();
+  const firstCard = page.locator(".project-card:not([hidden])").filter({ has: page.locator('button[data-action="open-case"]') }).first();
   const expectedTitle = await firstCard.getAttribute("data-title");
   await firstCard.locator('[data-action="open-case"]').click();
   const dialog = page.getByRole("dialog");
