@@ -1,4 +1,7 @@
 ---
+import { Image } from "astro:assets";
+import portrait from "@/assets/images/andyvi-bg-shadow-silhouette-smoke-sharp-v2.png";
+
 const techChips = [
   { label: "Vue 3", symbol: "icon-about-vue" },
   { label: "Nuxt", symbol: "icon-about-nuxt" },
@@ -44,12 +47,17 @@ const timeline = [
     </h1>
     <div class="title-rule" aria-hidden="true"></div>
   </div>
-  <p class="bio">
-    Frontend-разработчик. Специализируюсь на Vue 3, Nuxt,
-    TypeScript, архитектуре фронтенда, оптимизации производительности и CI/CD.
-    Разрабатываю масштабируемые сервисы для e-commerce, ERP/CRM и промышленных
-    решений.
-  </p>
+  <div class="bio-intro">
+    <Image class="portrait" src={portrait} alt="Андрей Воронцов" widths={[320, 640]} sizes="(max-width: 620px) 100vw, 260px" />
+    <div>
+      <p class="bio-name">Андрей Воронцов</p>
+      <p class="bio">
+        Frontend-разработчик. Специализируюсь на Vue 3, Nuxt,
+        TypeScript, архитектуре фронтенда, оптимизации производительности и CI/CD.
+        Разрабатываю сервисы для e-commerce, ERP/CRM и промышленных решений.
+      </p>
+    </div>
+  </div>
 
   <h2 class="section-label">Ключевые компетенции</h2>
   <ul class="skill-grid" aria-label="Ключевые компетенции">
@@ -148,6 +156,39 @@ const timeline = [
 </svg>
 
 <style>
+  .bio-intro {
+    display: grid;
+    grid-template-columns: minmax(160px, 240px) minmax(0, 1fr);
+    gap: 24px;
+    align-items: start;
+    margin-block-end: 34px;
+  }
+
+  .portrait {
+    width: 100%;
+    aspect-ratio: 4 / 5;
+    object-fit: cover;
+    object-position: top;
+    border: 1px solid rgba(183, 229, 249, 0.24);
+  }
+
+  .bio-name {
+    margin-bottom: 12px;
+    color: var(--cold-white);
+    font-size: 22px;
+    font-weight: 600;
+  }
+
+  .bio-intro .bio {
+    margin: 0;
+    font-size: 18px;
+  }
+
+  @media (width < 620px) {
+    .bio-intro { grid-template-columns: 1fr; }
+    .portrait { max-width: 280px; }
+  }
+
   .about-contact {
     margin-block-start: 24px;
   }
