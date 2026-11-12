@@ -16,7 +16,7 @@
 
 ## P2 - Journey and acceptance
 
-- [ ] 9. Reduce repetition, explain the process, and update the 404 page.
+- [x] 9. Reduce repetition, explain the process, and update the 404 page.
 - [ ] 10. After publication, agree on analytics and evaluate hypotheses.
 - [ ] 11. Run user journeys, project checks, and visual acceptance; record limitations.
 

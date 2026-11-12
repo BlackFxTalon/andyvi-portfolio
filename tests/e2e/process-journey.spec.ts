@@ -10,6 +10,12 @@ test("explains collaboration and links to contacts", async ({ page }) => {
   await expect(page.getByRole("link", { name: "Связаться со мной" })).toHaveAttribute("href", "/contacts");
 });
 
+test("offers a contact from the about page", async ({ page }) => {
+  await page.route("https://fonts.googleapis.com/**", (route) => route.fulfill({ body: "" }));
+  await page.goto("/about");
+  await expect(page.getByRole("link", { name: "Обсудить задачу" })).toHaveAttribute("href", "/contacts");
+});
+
 test("offers useful next steps on the 404 page", async ({ page }) => {
   await page.route("https://fonts.googleapis.com/**", (route) => route.fulfill({ body: "" }));
   await page.goto("/404");

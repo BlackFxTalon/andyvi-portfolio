@@ -17,7 +17,7 @@ for (const width of widths) {
         : route === "/about"
           ? "h1, .about-hero, .approach"
           : route === "/process"
-            ? "h1, .process-steps, .process-diagram"
+            ? "h1, .process-steps, .bottom-zone"
             : "h1, #projectsCta";
       const boxes = await page.locator(selectors).evaluateAll((elements) =>
         elements.map((element) => {
