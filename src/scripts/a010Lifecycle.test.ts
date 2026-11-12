@@ -1,10 +1,5 @@
 import assert from "node:assert/strict";
 import { afterEach, describe, it } from "node:test";
-import {
-  calculateFrameTransform,
-  fitFrame,
-  getFrameLayout,
-} from "./fitFrame.ts";
 import { applyGlitch, cleanupGlitchOnLoad } from "./glitchOnLoad.ts";
 import {
   applyVisitedState,
@@ -274,63 +269,6 @@ afterEach(() => {
   delete (globalThis as { window?: unknown }).window;
 });
 
-describe("fitFrame lifecycle", () => {
-  it("calculates safe desktop transforms and flow breakpoint state", () => {
-    assert.deepEqual(
-      calculateFrameTransform({ viewportWidth: 1920, viewportHeight: 1080 }),
-      {
-        scale: 1,
-        x: 0,
-        y: 0,
-        css: "translate(0px, 0px) scale(1)",
-      },
-    );
-    assert.equal(
-      getFrameLayout({ viewportWidth: 1279, viewportHeight: 900 }).mode,
-      "flow",
-    );
-    assert.equal(
-      getFrameLayout({ viewportWidth: Number.NaN, viewportHeight: 0 }).mode,
-      "flow",
-    );
-    assert.equal(
-      calculateFrameTransform({ viewportWidth: 0, viewportHeight: 0 }).scale,
-      1,
-    );
-  });
-
-  it("applies transforms only in cinematic viewports and clears them below 1280px", () => {
-    const { doc, win } = createDom();
-    const frame = doc.register(new TestElement("frame"));
-    const header = doc.register(new TestElement("siteHeader"));
-    frame.dataset.frameWidth = "1920";
-    frame.dataset.frameHeight = "1080";
-
-    const cinematic = fitFrame({
-      frame: frame as unknown as HTMLElement,
-      header: header as unknown as HTMLElement,
-      root: doc.documentElement as unknown as HTMLElement,
-      win: win as unknown as Window,
-    });
-    assert.equal(cinematic?.mode, "cinematic");
-    assert.match(frame.style.transform, /scale\(0\.75\)/);
-    assert.equal(header.style.transform, frame.style.transform);
-    assert.equal(doc.documentElement.dataset.layout, "cinematic");
-
-    win.innerWidth = 390;
-    const flow = fitFrame({
-      frame: frame as unknown as HTMLElement,
-      header: header as unknown as HTMLElement,
-      root: doc.documentElement as unknown as HTMLElement,
-      win: win as unknown as Window,
-    });
-    assert.equal(flow?.mode, "flow");
-    assert.equal(frame.style.transform, "");
-    assert.equal(header.style.transform, "");
-    assert.equal(doc.documentElement.dataset.layout, "flow");
-  });
-});
-
 describe("mobile nav lifecycle", () => {
   it("opens, closes, and stays idempotent across repeated init calls", () => {
     const { doc } = createDom();
@@ -400,13 +338,9 @@ describe("glitch on load", () => {
 describe("page transition lifecycle", () => {
   it("binds shell lifecycle idempotently across repeated binds and ClientRouter swaps", () => {
     const { doc, win } = createDom();
-    const frame = doc.register(new TestElement("frame"));
-    const header = doc.register(new TestElement("siteHeader"));
     const button = doc.register(new TestElement("menuButton"));
     const nav = doc.register(new TestElement("mobileNav"));
     const cta = doc.register(new TestAnchor("/works"));
-    frame.dataset.frameWidth = "1920";
-    frame.dataset.frameHeight = "1080";
     button.setAttribute("aria-expanded", "false");
     cta.classList.add("cta");
 
@@ -426,11 +360,7 @@ describe("page transition lifecycle", () => {
       root: doc.documentElement as unknown as HTMLElement,
     });
 
-    frame.style.resetWriteCount();
     doc.dispatchEvent(event("astro:page-load"));
-    assert.equal(frame.style.transformWriteCount, 1);
-    assert.match(frame.style.transform, /scale\(0\.75\)/);
-    assert.equal(header.style.transform, frame.style.transform);
 
     cta.dispatchEvent(event("click"));
     assert.equal(win.sessionStorage.writeCount, 1);

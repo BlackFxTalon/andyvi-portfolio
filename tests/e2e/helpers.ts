@@ -82,6 +82,7 @@ export function collectRuntimeProblems(page: Page) {
 }
 
 export async function gotoAndAssertClean(page: Page, path: string) {
+  await page.route("https://fonts.googleapis.com/**", (route) => route.fulfill({ body: "" }));
   const runtime = collectRuntimeProblems(page);
   const response = await page.goto(path);
 

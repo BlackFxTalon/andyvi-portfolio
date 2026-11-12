@@ -86,7 +86,8 @@ test.describe("production routes", () => {
 
     await expect(page.getByRole("navigation").first()).toBeVisible();
     await expect(page.locator("nav")).toHaveCount(2);
-    await expect(page.locator("button[aria-haspopup='dialog']")).toHaveCount(4);
+    await expect(page.locator("button[aria-haspopup='dialog']")).toHaveCount(2);
+    await expect(page.locator("a.card-open")).toHaveCount(3);
 
     const headingLevels = await page.locator("h1,h2,h3,h4,h5,h6").evaluateAll((headings) =>
       headings.map((heading) => Number(heading.tagName.slice(1))),
@@ -106,7 +107,7 @@ test.describe("reduced motion", () => {
     await gotoAndAssertClean(page, "/works");
 
     await expect.poll(() => page.evaluate(() => matchMedia("(prefers-reduced-motion: reduce)").matches)).toBe(true);
-    await page.locator(".card-open").first().click();
+    await page.locator("button.card-open").first().click();
     await expect(page.getByRole("dialog")).toBeVisible();
 
     const modalTransitionDuration = await page.locator("#caseModal").evaluate((modal) =>

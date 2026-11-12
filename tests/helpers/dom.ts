@@ -24,7 +24,7 @@ type GlobalKey =
 
 export interface DomFixture {
   dom: JSDOM;
-  window: Window;
+  window: Window & typeof globalThis;
   document: Document;
   cleanup: () => void;
 }
@@ -119,7 +119,7 @@ export function createDom(
 
   return {
     dom,
-    window,
+    window: window as unknown as Window & typeof globalThis,
     document: window.document,
     cleanup: () => {
       dom.window.close();

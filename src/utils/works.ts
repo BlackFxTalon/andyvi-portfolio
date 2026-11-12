@@ -17,8 +17,8 @@ export interface WorkItem {
   readonly summary: string;
   readonly type: string;
   readonly category: WorkCategory;
-  readonly year?: number;
-  readonly status?: 'production' | 'development' | 'archived';
+  readonly year?: number | undefined;
+  readonly status?: 'production' | 'development' | 'archived' | undefined;
   readonly stack: readonly string[];
   readonly details?: string;
   readonly links?: readonly WorkLink[];

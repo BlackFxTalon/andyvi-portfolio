@@ -71,7 +71,7 @@ export function createTestDom(html: string, url = "https://andyvi.test/"): TestD
 
   return {
     dom,
-    window,
+    window: window as unknown as Window & typeof globalThis,
     document: window.document,
     cleanup: () => {
       dom.window.close();

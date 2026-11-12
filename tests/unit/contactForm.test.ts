@@ -50,7 +50,7 @@ function fillValidForm(document: Document): void {
     "I need help with a production frontend migration.";
 }
 
-function submit(form: HTMLFormElement, window: Window): boolean {
+function submit(form: HTMLFormElement, window: DomFixture["window"]): boolean {
   return form.dispatchEvent(
     new window.Event("submit", { bubbles: true, cancelable: true }),
   );
